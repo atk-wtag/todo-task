@@ -55,10 +55,11 @@ function editTodo() {
 
 async function updateTodo(prev_val) {
   const list = this.parentNode;
+  const value = list.children[1].value.trim(); // new textarea value
+  if (!value) return;
   setDisabled(list);
 
   list.children[3].remove(); // delete 'save' button
-  const value = list.children[1].value.trim(); // new textarea value
   list.removeChild(list.children[1]); // removes the textarea element from <li>
 
   const updtlabel = document.createElement("label"); // a new label element
