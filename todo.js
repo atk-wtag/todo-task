@@ -1,179 +1,140 @@
-let state = {}; // object to hold the todo items.
+// loads all todos from DB
+async function loadTodos() {
+  const allTodos = await getAll();
+  for (const k in allTodos) {
+    const todo_details = allTodos[k];
+    created_at = todo_details.created_at.slice(0, 10);
+    completed_at = todo_details.completed_at;
 
-let todoInput = document.querySelector("[name=todo]");
-let form = document.querySelector("form");
-let todoList = document.getElementById("todoList");
-var edit = true;
+    completed_at = completed_at ? completed_at.slice(0, 10) : completed_at;
 
-// when the 'Add' button is clicked
-form.onsubmit = (e) => {
-  e.preventDefault();
-  addTodo(todoInput.value);
-  form.reset();
-};
-
-// reset the <ul> element on load
-reset();
-
-// resets the entire todo list
-function reset() {
-  // clear the <ul> element
-  var obj = document.querySelector("ul");
-  obj.innerHTML = "";
-
-  state = {}; // clear the state object
-
-  state = JSON.parse(localStorage.getItem("todos")); // reassign the storage values to the state
-
-  //iterate over the state object to create html elements
-  for (const k in state) {
-    addNewElement(k);
+    completed_at_node = completed_at
+      ? getCompletedNode(created_at, completed_at)
+      : null;
+    addNewHTMLElement(
+      todo_details.u_id,
+      todo_details.description,
+      created_at,
+      todo_details.completed,
+      completed_at_node
+    );
   }
-}
-
-// creates new HTML list element
-function createTodoElement(key) {
-  var todo = state[key];
-
-  // new <li> element
-  const li = document.createElement("li");
-
-  // checkbox to mark as done
-  const checkBox = document.createElement("input");
-  checkBox.setAttribute("type", "checkbox");
-  checkBox.addEventListener("change", changeStatus);
-
-  // label to act as to-do text
-  const label = document.createElement("label");
-  label.innerHTML = todo[0];
-
-  // strike-through based on the status
-  if (state[key][1]) {
-    checkBox.checked = true;
-    label.setAttribute("style", "text-decoration:line-through;");
-  }
-
-  // new edit button
-  const editBtn = createButton("Edit", editTodo, "margin-left : 1vw");
-
-  // new delete button
-  const delBtn = createButton("Delete", deleteTodo, "margin-left : 1vw");
-
-  li.setAttribute("id", key);
-
-  li.appendChild(checkBox);
-  li.appendChild(label);
-
-  li.appendChild(editBtn);
-  li.appendChild(delBtn);
-
-  li.setAttribute("style", "margin: 1vh 0");
-
-  return li;
 }
 
 // add new todo to the state object
-function addTodo(todo) {
-  var input = todo.trim();
-
+async function addTodo(todo) {
+  const input = todo;
   if (input) {
-    var inputArr = [input, false]; // 1st index -> todo task, 2nd index -> a boolean, to indicate whether the task is done or not. false -> not done, true -> done
-    let key = Date.now(); // current time in ms, to use as key
-    state[key] = inputArr;
+    let key = Date.now(); // current time in ms, to use as db key and <li> id
 
-    addNewElement(key); // create a new li with the current time in ms as key
+    const obj = await create(key, input);
 
-    localStorage.setItem("todos", JSON.stringify(state)); // push the state to localStorage
+    const date = getCurrDate();
+    obj.error
+      ? alert("failed to add")
+      : addNewHTMLElement(key, input, date, false);
   }
 }
 
-// creates new HTML <li> element and displays it
-function addNewElement(index) {
-  let newTodoElement = createTodoElement(index);
-  todoList.appendChild(newTodoElement);
-}
-
 // deletes a todo
-function deleteTodo() {
-  let id = this.parentNode.id; // id of the <li> element
+async function deleteTodo() {
+  const list = this.parentNode;
+  setDisabled(list);
+  let id = list.id; // id of the <li> element
 
-  delete state[id]; // deletes the element by id
-  this.parentNode.remove(); // stops showing on DOM
-
-  updateStorage(); // updates the localStorage with the new state
+  const deleted = await deleteByID(id); // updates the localStorage with the new state
+  setEnabled(list);
+  deleted.error ? alert("failed to delete") : list.remove();
 }
 
 // edit a todo
 function editTodo() {
   const list = this.parentNode; // the current <li> element
   const newInput = makeEditable(list); // Create a new input box
-
-  // onClick the save button
-  list.children[2].addEventListener("click", () => {
-    const value = newInput.value; // the value on the textarea
-    state[list.id][0] = value; // replace the old value with the new one on the state object. state[key] -> current todo array. array[0] -> todo text. array[1] -> done or not
-
-    list.removeChild(list.children[1]); // removes the textarea element from <li>
-
-    const updtlabel = document.createElement("label"); // a new label element
-    updtlabel.innerHTML = value; // set new label value to textarea value
-
-    list.insertBefore(updtlabel, list.children[1]); // add the new label to <li> before the 'save' button
-    list.children[2].innerHTML = "Edit"; // change 'save' button text to 'edit'
-
-    updateStorage(); // update the local storage
-    reset();
-    /* resets the entire <ul> element. done to solve an issue 
-    where the todo text value was disappearing on
-     consecutive clicks on the edit button after saving
-     */
-  });
 }
 
-// make an editable input box
-function makeEditable(list) {
-  const label = list.childNodes[1]; // the current todo node in the <li> element
-  const labelData = label.innerHTML; // current todo text
-  list.removeChild(label); // removes the todo from the <ul>
+async function updateTodo(prev_val) {
+  const list = this.parentNode;
+  setDisabled(list);
 
-  // creates a new textarea with the current todo text as default value
-  const newInput = document.createElement("textarea");
-  newInput.value = labelData;
+  list.children[3].remove(); // delete 'save' button
+  const value = list.children[1].value.trim(); // new textarea value
+  list.removeChild(list.children[1]); // removes the textarea element from <li>
 
-  list.insertBefore(newInput, list.children[1]); // textarea appended to the <ul> in place of the previous todo text label
+  const updtlabel = document.createElement("label"); // a new label element
+  updtlabel.innerText = value; // set new label value to textarea value
+  list.insertBefore(updtlabel, list.children[1]); // add the new label to <li> before the 'save' button
 
-  list.childNodes[2].innerHTML = "Save"; // change 'edit; button text to 'save'
-  return newInput; // returns the newly created textarea element.
+  const update = await updateByID(list.id, value);
+  if (update.error) {
+    alert("failed to update");
+    list.children[1].innerText = prev_val;
+  }
+  const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
+  list.insertBefore(editBtn, list.children[3]);
+  setEnabled(list);
 }
 
 // change mark-as-done (toggle checkbox). invoked when the checkbox is clicked
-function changeStatus() {
-  let id = this.parentNode.id; // <li> id
-  const label = this.parentNode.childNodes[1]; // todo text label
+async function changeStatus() {
+  const list = this.parentNode;
+  setDisabled(list);
 
-  // if the checkbox has been checked set the 1st index of its array to true. otherwise set false. true -> mark as done
-  if (this.parentNode.children[0].checked) {
-    state[id][1] = true;
-    label.setAttribute("style", "text-decoration:line-through;"); // strike-through if marked-as-done
+  if (list.children[0].checked) {
+    await markAsDone.call(list.children[0]);
   } else {
-    state[id][1] = false;
-    label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/chekbox unchecked
+    await markAsUndone.call(list.children[0]);
   }
-  updateStorage(); // update localStorage
+  setEnabled(list);
 }
 
-// update the state object in the local storage
-function updateStorage() {
-  localStorage.removeItem("todos"); // delete the previous state object
-  localStorage.setItem("todos", JSON.stringify(state)); // push the new state object
+async function markAsDone() {
+  const list = this.parentNode;
+  const id = list.id;
+  const text = list.children[1].innerText || list.children[1].value; // todo text label
+
+  list.childNodes[3].remove();
+
+  const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
+
+  const checked = await toggleCompleted(id, true);
+  if (!checked.error) {
+    const newText = document.createElement("label");
+    newText.innerText = text;
+
+    newTextNode = replaceNode(list, list.children[1], "label", text, newText);
+    newTextNode.setAttribute("style", "text-decoration:line-through;"); // strike-through if marked/checked
+
+    const completed_at = checked.data[0].completed_at.slice(0, 10);
+
+    if (completed_at) {
+      const created = checked.data[0].created_at.slice(0, 10);
+
+      list.appendChild(getCompletedNode(created, completed_at));
+    }
+  } else {
+    // remove strike-through for error, and add the 'edit' button
+    alert("failed");
+    list.children[0].checked = false;
+    list.insertBefore(editBtn, list.children[3]);
+  }
 }
 
-// create a button and return it
-function createButton(label, onClick, style) {
-  const btn = document.createElement("button");
-  btn.innerHTML = label;
-  btn.addEventListener("click", onClick);
-  btn.setAttribute("style", style);
+async function markAsUndone() {
+  const list = this.parentNode;
+  const id = list.id;
+  const label = list.childNodes[1]; // todo text label
 
-  return btn;
+  list.removeChild(list.children[list.children.length - 1]); // remove completed at
+
+  const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
+
+  const checked = await toggleCompleted(id, false);
+  if (!checked.error) {
+    label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/unchecked
+    list.insertBefore(editBtn, list.children[3]);
+  } else {
+    alert("failed");
+    list.children[0].checked = true;
+  }
 }
