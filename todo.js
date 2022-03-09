@@ -113,7 +113,7 @@ async function markAsDone() {
 
       list.appendChild(getCompletedNode(created, completed_at));
     }
-    const updt = await updateByID(id, text);
+    await updateByID(id, text);
   } else {
     // remove strike-through for error, and add the 'edit' button
     alert("failed");
