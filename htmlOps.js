@@ -4,7 +4,8 @@ function addNewHTMLElement(
   desc,
   created_at,
   completed,
-  completed_at_node
+  completed_at_node,
+  placement
 ) {
   let newTodoElement = createTodoElement(
     index,
@@ -13,7 +14,9 @@ function addNewHTMLElement(
     completed,
     completed_at_node
   );
-  todoList.prepend(newTodoElement);
+  placement === "append"
+    ? todoList.append(newTodoElement)
+    : todoList.prepend(newTodoElement);
 }
 
 // creates new HTML list element
@@ -194,4 +197,10 @@ function getCompletedNode(created_at, completed_at) {
   completed_at_node.innerText = ` Completed in ${time_to_finish} ${d}`;
 
   return completed_at_node;
+}
+
+function removeAllChild(list) {
+  while (list.hasChildNodes()) {
+    list.removeChild(list.firstChild);
+  }
 }

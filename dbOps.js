@@ -9,7 +9,6 @@ async function create(u_id, desc) {
     const { data, error } = await spConn
       .from("todos")
       .insert([{ u_id: u_id, description: desc }]);
-    console.log(data);
     return { data, error };
   } catch (err) {
     console.log(err);

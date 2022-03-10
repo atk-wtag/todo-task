@@ -1,40 +1,30 @@
 // loads all todos from DB
-async function loadTodos() {
-  const allTodos = await getAll();
-  for (const k in allTodos) {
-    const todo_details = allTodos[k];
-    created_at = todo_details.created_at.slice(0, 10);
-    completed_at = todo_details.completed_at;
-
-    completed_at = completed_at ? completed_at.slice(0, 10) : completed_at;
-
-    completed_at_node = completed_at
-      ? getCompletedNode(created_at, completed_at)
-      : null;
-    addNewHTMLElement(
-      todo_details.u_id,
-      todo_details.description,
-      created_at,
-      todo_details.completed,
-      completed_at_node
-    );
-  }
+async function loadTodos(type) {
+  await reset();
+  const allTodos = state[type];
+  const lastIdx = Object.keys(allTodos).length - 1;
+  setState("showing", [lastIdx, lastIdx - 9]);
+  showTodos("append", allTodos);
 }
 
 // add new todo to the state object
 async function addTodo(todo) {
   let input = todo;
   if (input) {
+    setDisabled(newInput);
     input = sanitizeString(input);
     let key = Date.now(); // current time in ms, to use as db key and <li> id
 
     const obj = await create(key, input);
 
     const date = getCurrDate();
-    obj.error
-      ? alert("failed to add")
-      : addNewHTMLElement(key, input, date, false);
+    if (!obj.error) {
+      state.all.push(obj.data[0]);
+      // updateStorage();
+      addNewHTMLElement(key, input, date, false);
+    } else alert("failed to add");
   }
+  setEnabled(newInput);
 }
 
 // deletes a todo
@@ -45,9 +35,12 @@ async function deleteTodo() {
 
   const deleted = await deleteByID(id); // updates the localStorage with the new state
   setEnabled(list);
-  deleted.error ? alert("failed to delete") : list.remove();
+  if (deleted.error) alert("failed to delete");
+  else {
+    list.remove();
+    reset();
+  }
 }
-
 // edit a todo
 function editTodo() {
   const list = this.parentNode; // the current <li> element
@@ -72,6 +65,9 @@ async function updateTodo(prev_val) {
   if (update.error) {
     alert("failed to update");
     list.children[1].innerText = prev_val;
+  } else {
+    modifyState(list.id, "description", value);
+    // updateStorage();
   }
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
   list.insertBefore(editBtn, list.children[3]);
@@ -83,14 +79,23 @@ async function changeStatus() {
   const list = this.parentNode;
   setDisabled(list);
 
-  if (list.children[0].checked) {
-    await markAsDone.call(list.children[0]);
-  } else {
-    await markAsUndone.call(list.children[0]);
+  try {
+    if (list.children[0].checked) {
+      await markAsDone.call(list.children[0]);
+      modifyState(list.id, "completed", true);
+    } else {
+      await markAsUndone.call(list.children[0]);
+      modifyState(list.id, "completed", false);
+    }
+    // updateStorage();
+  } catch (e) {
+    console.log(e);
+  } finally {
+    setEnabled(list);
   }
-  setEnabled(list);
 }
 
+// makes todo completed
 async function markAsDone() {
   const list = this.parentNode;
   const id = list.id;
@@ -116,6 +121,7 @@ async function markAsDone() {
       list.appendChild(getCompletedNode(created, completed_at));
     }
     await updateByID(id, text);
+    modifyState(id, "description", text);
   } else {
     // remove strike-through for error, and add the 'edit' button
     alert("failed");
@@ -124,6 +130,7 @@ async function markAsDone() {
   }
 }
 
+// makes todo incomplete
 async function markAsUndone() {
   const list = this.parentNode;
   const id = list.id;
@@ -135,6 +142,7 @@ async function markAsUndone() {
 
   const checked = await toggleCompleted(id, false);
   if (!checked.error) {
+    modifyState(id, "description", label);
     label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/unchecked
     list.insertBefore(editBtn, list.children[3]);
   } else {

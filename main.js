@@ -1,3 +1,5 @@
+var state = {};
+
 function addJS(uri) {
   let jsFile = document.createElement("script");
   jsFile.src = uri;
@@ -9,16 +11,29 @@ addJS("/dbOps.js");
 addJS("/htmlOps.js");
 addJS("/todo.js");
 addJS("./common/js/resource.js");
+addJS("/filter.js");
+addJS("/common/js/stateOps.js");
 
-let newInput = document.querySelector("[name=createBtn]");
-let todoInput = document.querySelector("[name=todoInputBox]");
-let form = document.querySelector("form");
-let todoList = document.getElementById("todoList");
+//crud buttons
+let newInput = document.querySelector("[name=createBtn]"); // create button
+let todoInput = document.querySelector("[name=todoInputBox]"); // input box
+let form = document.querySelector("form"); // input form
+let todoList = document.getElementById("todoList"); // <ul> to append todos
 
-newInput.addEventListener("click", function () {
-  createNewFormList();
-});
+// filter buttons
+const allBtn = document.querySelector("[name=allTodoBtn]"); // show all button
+const incompleteBtn = document.querySelector("[name=incompleteBtn]"); // filter by incomplete
+const completedBTn = document.querySelector("[name=completedBtn]"); // filter completed
+const loadMoreBtn = document.querySelector("[name=loadMoreBtn]"); // load more
 
-window.addEventListener("load", function () {
-  loadTodos();
-});
+newInput.addEventListener("click", () => createNewFormList());
+
+window.addEventListener("load", () => loadTodos("all"));
+
+loadMoreBtn.addEventListener("click", () => loadMore(state.all));
+
+completedBTn.addEventListener("click", () => showCompleted());
+
+incompleteBtn.addEventListener("click", () => showIncomplete());
+
+allBtn.addEventListener("click", () => showAllTodos());
