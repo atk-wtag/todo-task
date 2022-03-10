@@ -1,5 +1,5 @@
 // loads all todos from DB
-async function loadTodos() {
+export async function loadTodos() {
   const allTodos = await getAll();
   for (const k in allTodos) {
     const todo_details = allTodos[k];

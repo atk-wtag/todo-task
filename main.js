@@ -14,11 +14,11 @@ let todoInput = document.querySelector("[name=todoInputBox]");
 let form = document.querySelector("form");
 let todoList = document.getElementById("todoList");
 
-newInput.addEventListener("DOMContentLoaded", function () {
+newInput.addEventListener("click", function () {
   createNewFormList();
 });
 
-window.addEventListener("load", function () {
+window.addEventListener("DOMContentLoaded", function () {
   loadTodos();
 });
 
