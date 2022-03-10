@@ -188,8 +188,9 @@ function setEnabled(item) {
 
 function getCompletedNode(created_at, completed_at) {
   const completed_at_node = document.createElement("label");
-  const time_to_finish = compareDates(created_at, completed_at);
+  let time_to_finish = compareDates(created_at, completed_at);
   const d = time_to_finish > 1 ? "days" : "day";
+  time_to_finish = time_to_finish === 0 ? "less than a" : time_to_finish;
   completed_at_node.innerText = ` Completed in ${time_to_finish} ${d}`;
 
   return completed_at_node;

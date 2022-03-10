@@ -14,7 +14,7 @@ let todoInput = document.querySelector("[name=todoInputBox]");
 let form = document.querySelector("form");
 let todoList = document.getElementById("todoList");
 
-newInput.addEventListener("click", function () {
+newInput.addEventListener("DOMContentLoaded", function () {
   createNewFormList();
 });
 
