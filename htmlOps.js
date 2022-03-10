@@ -13,7 +13,7 @@ function addNewHTMLElement(
     completed,
     completed_at_node
   );
-  todoList.appendChild(newTodoElement);
+  todoList.prepend(newTodoElement);
 }
 
 // creates new HTML list element
