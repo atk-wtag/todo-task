@@ -1,5 +1,5 @@
 // loads all todos from DB
-export async function loadTodos() {
+async function loadTodos() {
   const allTodos = await getAll();
   for (const k in allTodos) {
     const todo_details = allTodos[k];
@@ -23,8 +23,9 @@ export async function loadTodos() {
 
 // add new todo to the state object
 async function addTodo(todo) {
-  const input = todo;
+  let input = todo;
   if (input) {
+    input = sanitizeString(input);
     let key = Date.now(); // current time in ms, to use as db key and <li> id
 
     const obj = await create(key, input);
@@ -55,7 +56,8 @@ function editTodo() {
 
 async function updateTodo(prev_val) {
   const list = this.parentNode;
-  const value = list.children[1].value.trim(); // new textarea value
+  let value = list.children[1].value.trim(); // new textarea value
+  value = sanitizeString(value);
   if (!value) return;
   setDisabled(list);
 
