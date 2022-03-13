@@ -1,10 +1,11 @@
 // loads all todos from DB
-async function loadTodos(type) {
-  await reset();
-  const allTodos = state[type];
+async function loadTodos(r = true) {
+  r ? await reset() : "";
+  const pointer = state.pointer;
+  const allTodos = state[pointer];
   const lastIdx = Object.keys(allTodos).length - 1;
   setState("showing", [lastIdx, lastIdx - 9]);
-  showTodos("append", allTodos);
+  showTodos("append");
 }
 
 // add new todo to the state object
@@ -19,9 +20,10 @@ async function addTodo(todo) {
 
     const date = getCurrDate();
     if (!obj.error) {
-      state.all.push(obj.data[0]);
-      // updateStorage();
-      addNewHTMLElement(key, input, date, false);
+      state.pointer = "all";
+      await state.all.push(obj.data[0]);
+      removeAllChild(todoList);
+      loadTodos(false);
     } else alert("failed to add");
   }
   setEnabled(newInput);
@@ -38,7 +40,8 @@ async function deleteTodo() {
   if (deleted.error) alert("failed to delete");
   else {
     list.remove();
-    reset();
+    removefromState(id);
+    await reset();
   }
 }
 // edit a todo
@@ -67,7 +70,6 @@ async function updateTodo(prev_val) {
     list.children[1].innerText = prev_val;
   } else {
     modifyState(list.id, "description", value);
-    // updateStorage();
   }
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
   list.insertBefore(editBtn, list.children[3]);
@@ -87,7 +89,8 @@ async function changeStatus() {
       await markAsUndone.call(list.children[0]);
       modifyState(list.id, "completed", false);
     }
-    // updateStorage();
+    if (state.pointer === "completed") showCompleted();
+    else if (state.pointer === "incomplete") showIncomplete();
   } catch (e) {
     console.log(e);
   } finally {
@@ -142,7 +145,7 @@ async function markAsUndone() {
 
   const checked = await toggleCompleted(id, false);
   if (!checked.error) {
-    modifyState(id, "description", label);
+    modifyState(id, "description", label.innerText);
     label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/unchecked
     list.insertBefore(editBtn, list.children[3]);
   } else {

@@ -3,15 +3,10 @@ async function setState(key, value) {
   state[key] = value;
 }
 
-// copies the state object to localstorage
-// function updateStorage() {
-//   localStorage.setItem("todos", JSON.stringify(state));
-// }
-
 async function reset() {
   const allTodos = await getAll();
   setState("all", allTodos);
-  //   updateStorage();
+  setState("pointer", "all");
 }
 
 function modifyState(id, field, value) {
@@ -35,4 +30,10 @@ function filterIncomplete() {
     return item.completed === false;
   });
   state.incomplete = incomplete;
+}
+
+function removefromState(id) {
+  state.all = state.all.filter((item) => {
+    return parseInt(item.u_id) != id;
+  });
 }

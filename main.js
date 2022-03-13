@@ -28,9 +28,9 @@ const loadMoreBtn = document.querySelector("[name=loadMoreBtn]"); // load more
 
 newInput.addEventListener("click", () => createNewFormList());
 
-window.addEventListener("load", () => loadTodos("all"));
+window.addEventListener("load", () => loadTodos());
 
-loadMoreBtn.addEventListener("click", () => loadMore(state.all));
+loadMoreBtn.addEventListener("click", () => loadMore());
 
 completedBTn.addEventListener("click", () => showCompleted());
 
