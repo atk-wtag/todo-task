@@ -9,7 +9,6 @@ async function create(u_id, desc) {
     const { data, error } = await spConn
       .from("todos")
       .insert([{ u_id: u_id, description: desc }]);
-    console.log(data);
     return { data, error };
   } catch (err) {
     console.log(err);
@@ -60,6 +59,62 @@ async function toggleCompleted(id, done) {
       .update({ completed: done, completed_at: completed_at })
       .match({ u_id: id });
     return { data, error };
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getCompleted(completed) {
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .match({ completed: completed })
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function searchByText(text) {
+  const keywrd = `%${text}%`;
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .ilike("description", keywrd)
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getCompletedwithSearchText(text, completed) {
+  const keywrd = `%${text}%`;
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .match({ completed: completed })
+      .ilike("description", keywrd)
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getAllwithText(text) {
+  const keywrd = `%${text}%`;
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .ilike("description", keywrd)
+      .order("id", { ascending: true });
+    return data;
   } catch (err) {
     console.log(err);
   }
