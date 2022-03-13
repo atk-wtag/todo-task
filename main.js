@@ -1,4 +1,5 @@
 const state = {};
+let timer;
 
 function addJS(uri) {
   let jsFile = document.createElement("script");
@@ -44,7 +45,13 @@ incompleteBtn.addEventListener("click", () => showIncomplete());
 allBtn.addEventListener("click", () => showAll());
 
 searchBar.addEventListener("keyup", function () {
-  const searchText = sanitizeString(this.value);
-  searchText.length >= 3 ? search(searchText) : "";
-  searchText.length === 0 ? resetSearch() : "";
+  timer = setTimeout(() => {
+    const searchText = this.value;
+    searchText.length >= 3 ? search(sanitizeString(searchText)) : "";
+    searchText.length === 0 ? resetSearch() : "";
+  }, 600);
+});
+
+searchBar.addEventListener("keypress", function () {
+  clearTimeout(timer);
 });

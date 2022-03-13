@@ -95,6 +95,8 @@ async function changeStatus() {
     else if (state.pointer === "incomplete") showIncomplete();
   } catch (e) {
     console.log(e);
+  } finally {
+    setEnabled(list);
   }
 }
 
