@@ -32,9 +32,22 @@ const loadMoreBtn = document.querySelector("[name=loadMoreBtn]"); // load more
 const searchBar = document.querySelector("[name=searchBar]");
 const searchBtn = document.querySelector("[name=searchBtn]");
 
+//preloading div
+const preloader = document.querySelector("[class=preloader]");
+const main_div = document.querySelector("[class=main-div]");
+
 newInput.addEventListener("click", () => createNewFormList());
 
-window.addEventListener("load", () => loadTodos());
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    preloader.remove();
+    main_div.style.setProperty("visibility", "visible");
+    main_div.style.setProperty("opacity", "1");
+    main_div.style.setProperty("transition", "opacity .5s linear");
+  }, 2000);
+  const todos = loadTodos();
+  console.log(todos);
+});
 
 loadMoreBtn.addEventListener("click", () => loadMore());
 

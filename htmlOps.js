@@ -180,6 +180,8 @@ function createNewInput(type, name, value, style) {
 
 function setDisabled(item) {
   const elem = item;
+  elem.style.setProperty("mask-image", "url(../common/img/spinner.svg)");
+
   elem.style.setProperty("pointer-events", "none");
   elem.style.setProperty("opacity", "0.6");
 }

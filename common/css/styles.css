@@ -1,3 +1,46 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgba(248, 249, 255, 1);
+  font-family: "Roboto", sans-serif;
+}
 ul li {
   color: black;
+}
+
+.preloader {
+  visibility: visible;
+}
+
+.preloader object {
+  position: absolute;
+  width: 446px;
+  height: 154px;
+  left: 35vw;
+  top: 40vh;
+}
+
+.main-div {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}
+
+.no-todos {
+  visibility: hidden;
+  position: absolute;
+  left: 43.45%;
+  right: 35.45%;
+  top: 42.22%;
+  bottom: 34.93%;
+
+  color: #32394b;
+}
+
+#no_todos_text {
+  margin-top: 1vh;
+  position: relative;
+  left: -4vw;
 }
