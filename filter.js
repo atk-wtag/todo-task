@@ -1,7 +1,6 @@
 function showTodos(placement) {
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
-  const pointer = state.pointer;
-  const allTodos = state[pointer];
+  const allTodos = state.all;
 
   const show = state.showing;
   const from = show[0];
@@ -36,34 +35,40 @@ function loadMore() {
   showTodos("append");
 }
 
-function showCompleted() {
+async function showCompleted() {
+  const len = searchBar.value.length;
+  state.all =
+    len >= 3
+      ? await getCompletedwithSearchText(searchBar.value, true)
+      : await getCompleted(true);
+
   removeAllChild(todoList);
-  filterCompleted();
+  reset_showing(state.all);
+
   setState("pointer", "completed");
-  const completed = state.completed;
-  const lastIdx = Object.keys(completed).length - 1;
-  const firstIdx = lastIdx - 9;
-  setState("showing", [lastIdx, firstIdx]);
   showTodos("append");
 }
 
-function showIncomplete() {
+async function showIncomplete() {
+  const len = searchBar.value.length;
+  state.all =
+    len >= 3
+      ? await getCompletedwithSearchText(searchBar.value, false)
+      : await getCompleted(false);
+
   removeAllChild(todoList);
-  filterIncomplete();
+  reset_showing(state.all);
+
   setState("pointer", "incomplete");
-  const incomplete = state.incomplete;
-  const lastIdx = Object.keys(incomplete).length - 1;
-  const firstIdx = lastIdx - 9;
-  setState("showing", [lastIdx, firstIdx]);
   showTodos("append");
 }
 
-function showAllTodos() {
-  removeAllChild(todoList);
-  setState("pointer", "all");
-  const all = state.all;
-  const lastIdx = Object.keys(all).length - 1;
-  const firstIdx = lastIdx - 9;
-  setState("showing", [lastIdx, firstIdx]);
-  showTodos("append", all);
+async function showAll() {
+  const len = searchBar.value.length;
+  if (len >= 3) {
+    state.all = await getAllwithText(searchBar.value);
+    removeAllChild(todoList);
+    loadTodos(false);
+    return;
+  } else loadTodos();
 }

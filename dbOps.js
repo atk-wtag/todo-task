@@ -63,3 +63,59 @@ async function toggleCompleted(id, done) {
     console.log(err);
   }
 }
+
+async function getCompleted(completed) {
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .match({ completed: completed })
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function searchByText(text) {
+  const keywrd = `%${text}%`;
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .ilike("description", keywrd)
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getCompletedwithSearchText(text, completed) {
+  const keywrd = `%${text}%`;
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .match({ completed: completed })
+      .ilike("description", keywrd)
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getAllwithText(text) {
+  const keywrd = `%${text}%`;
+  try {
+    const { data, error } = await spConn
+      .from("todos")
+      .select()
+      .ilike("description", keywrd)
+      .order("id", { ascending: true });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}

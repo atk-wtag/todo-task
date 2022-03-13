@@ -1,10 +1,12 @@
 // loads all todos from DB
 async function loadTodos(r = true) {
-  r ? await reset() : "";
-  const pointer = state.pointer;
-  const allTodos = state[pointer];
-  const lastIdx = Object.keys(allTodos).length - 1;
-  setState("showing", [lastIdx, lastIdx - 9]);
+  if (r) {
+    await reset();
+    removeAllChild(todoList);
+  }
+
+  setState("pointer", "all");
+  reset_showing(state.all);
   showTodos("append");
 }
 
@@ -20,10 +22,10 @@ async function addTodo(todo) {
 
     const date = getCurrDate();
     if (!obj.error) {
-      state.pointer = "all";
+      searchBar.value = "";
+
       await state.all.push(obj.data[0]);
-      removeAllChild(todoList);
-      loadTodos(false);
+      showAll();
     } else alert("failed to add");
   }
   setEnabled(newInput);
@@ -35,13 +37,15 @@ async function deleteTodo() {
   setDisabled(list);
   let id = list.id; // id of the <li> element
 
-  const deleted = await deleteByID(id); // updates the localStorage with the new state
+  const deleted = await deleteByID(id);
   setEnabled(list);
   if (deleted.error) alert("failed to delete");
   else {
     list.remove();
     removefromState(id);
-    await reset();
+    if (state.pointer == "completed") showCompleted();
+    else if (state.pointer == "incomplete") showIncomplete();
+    else loadTodos();
   }
 }
 // edit a todo
@@ -69,7 +73,7 @@ async function updateTodo(prev_val) {
     alert("failed to update");
     list.children[1].innerText = prev_val;
   } else {
-    modifyState(list.id, "description", value);
+    // modifyState(list.id, "description", value);
   }
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
   list.insertBefore(editBtn, list.children[3]);
@@ -84,17 +88,13 @@ async function changeStatus() {
   try {
     if (list.children[0].checked) {
       await markAsDone.call(list.children[0]);
-      modifyState(list.id, "completed", true);
     } else {
       await markAsUndone.call(list.children[0]);
-      modifyState(list.id, "completed", false);
     }
     if (state.pointer === "completed") showCompleted();
     else if (state.pointer === "incomplete") showIncomplete();
   } catch (e) {
     console.log(e);
-  } finally {
-    setEnabled(list);
   }
 }
 
@@ -124,7 +124,7 @@ async function markAsDone() {
       list.appendChild(getCompletedNode(created, completed_at));
     }
     await updateByID(id, text);
-    modifyState(id, "description", text);
+    // modifyState(id, "description", text);
   } else {
     // remove strike-through for error, and add the 'edit' button
     alert("failed");
@@ -145,7 +145,7 @@ async function markAsUndone() {
 
   const checked = await toggleCompleted(id, false);
   if (!checked.error) {
-    modifyState(id, "description", label.innerText);
+    // modifyState(id, "description", label.innerText);
     label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/unchecked
     list.insertBefore(editBtn, list.children[3]);
   } else {

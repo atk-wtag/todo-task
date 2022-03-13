@@ -13,6 +13,8 @@ function getCurrDate() {
 
 // sanitizes inputs
 function sanitizeString(str) {
-  str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, " ");
-  return str.trim();
+  str = str.replace(/[^a-z0-9 \.,-]/gim, " ");
+  str = str.replace(/\s\s+/g, " ").trim();
+
+  return str;
 }
