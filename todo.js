@@ -42,7 +42,6 @@ async function deleteTodo() {
   if (deleted.error) alert("failed to delete");
   else {
     list.remove();
-    removefromState(id);
     if (state.pointer == "completed") showCompleted();
     else if (state.pointer == "incomplete") showIncomplete();
     else loadTodos();
