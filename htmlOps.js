@@ -79,7 +79,7 @@ function makeEditable(list) {
 
   const saveBtn = createButton(
     "save",
-    () => updateTodo.call(list.children[4], labelData),
+    () => updateTodo.call(list.children[4]),
     "margin-left: 1vw"
   ); // a new save button element
 

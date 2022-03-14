@@ -14,8 +14,14 @@
     <title>Todo</title>
   </head>
   <body>
+    <!-- Toast -->
     <!-- container  -->
     <div class="container">
+      <!-- toast div -->
+      <div id="toast"></div>
+      <!-- toast div end-->
+
+      <!-- main spinner -->
       <svg
         class="spinner"
         width="51"
@@ -29,6 +35,7 @@
           fill="#7A8DFD"
         />
       </svg>
+      <!-- main spinner end -->
 
       <!-- Preloader image -->
       <div class="preloader">
@@ -53,7 +60,7 @@
         <!-- navbar end-->
 
         <!-- content div -->
-        <div class="content">
+        <div id="content" class="disabled">
           <button name="createBtn">Create</button>
           <button name="allTodoBtn">All</button>
           <button name="incompleteBtn">Incomplete</button>

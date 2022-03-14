@@ -78,3 +78,84 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+#toast {
+  visibility: hidden;
+  max-width: 20vw;
+  max-height: 10vh;
+  text-align: center;
+  border-radius: 5px;
+  padding: 20px;
+  position: fixed;
+  z-index: 800;
+  left: 40%;
+  right: 40%;
+  top: 1%;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  font-style: normal;
+}
+
+#toast.show-err {
+  background: rgba(232, 95, 95, 1);
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 1s;
+  animation: fadein 0.5s, fadeout 0.5s 1s;
+}
+
+#toast.show-no-err {
+  background: rgba(11, 195, 117, 1);
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 1s;
+  animation: fadein 0.5s, fadeout 0.5s 1s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 1%;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 1%;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    top: 1%;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    top: 1%;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}

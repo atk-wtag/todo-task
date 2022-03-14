@@ -21,10 +21,10 @@ async function addTodo(todo) {
 
     if (!obj.error) {
       searchBar.value = "";
-
       await state.all.push(obj.data[0]);
-      loadTodos();
-    } else alert("failed to add");
+      await loadTodos();
+      showToast(false);
+    } else showToast(true);
   }
 }
 
@@ -36,8 +36,9 @@ async function deleteTodo() {
 
   const deleted = await deleteByID(id);
   setEnabled(list);
-  if (deleted.error) alert("failed to delete");
+  if (deleted.error) showToast(true);
   else {
+    showToast(false);
     list.remove();
     if (state.pointer == "completed") showCompleted();
     else if (state.pointer == "incomplete") showIncomplete();
@@ -53,7 +54,7 @@ function editTodo() {
   const newInput = makeEditable(list); // Create a new input box
 }
 
-async function updateTodo(prev_val) {
+async function updateTodo() {
   const list = this.parentNode;
   let value = list.children[2].value.trim(); // new textarea value
   value = sanitizeString(value);
@@ -65,14 +66,15 @@ async function updateTodo(prev_val) {
 
   const updtlabel = document.createElement("label"); // a new label element
   updtlabel.innerText = value; // set new label value to textarea value
+  updtlabel.className = "disabled";
   list.insertBefore(updtlabel, list.children[2]); // add the new label to <li> before the 'save' button
 
   const update = await updateByID(list.id, value);
   if (update.error) {
-    alert("failed to update");
-    list.children[1].innerText = prev_val;
-  } else {
-  }
+    showToast(true);
+    reset();
+  } else showToast(false);
+
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
   list.insertBefore(editBtn, list.children[4]);
   setEnabled(list);
@@ -90,8 +92,10 @@ async function changeStatus() {
     }
     if (state.pointer === "completed") showCompleted();
     else if (state.pointer === "incomplete") showIncomplete();
+    showToast(false);
   } catch (e) {
     console.log(e);
+    showToast(true);
   } finally {
     setEnabled(list);
   }
@@ -113,7 +117,8 @@ async function markAsDone() {
     newText.innerText = text;
 
     newTextNode = replaceNode(list, list.children[2], "label", text, newText);
-    newTextNode.setAttribute("style", "text-decoration:line-through;"); // strike-through if marked/checked
+    newTextNode.style.setProperty("text-decoration", "line-through"); // strike-through if marked/checked
+    newTextNode.className = "disabled"; // strike-through if marked/checked
 
     const completed_at = checked.data[0].completed_at.slice(0, 10);
 
@@ -124,9 +129,9 @@ async function markAsDone() {
     }
     await updateByID(id, text);
   } else {
-    // remove strike-through for error, and add the 'edit' button
-    alert("failed");
+    showToast(true);
     list.children[1].checked = false;
+    // remove strike-through for error, and add the 'edit' button
     list.insertBefore(editBtn, list.children[4]);
   }
 }
@@ -144,10 +149,10 @@ async function markAsUndone() {
   const checked = await toggleCompleted(id, false);
   if (!checked.error) {
     // modifyState(id, "description", label.innerText);
-    label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/unchecked
+    label.style.setProperty("text-decoration", "none"); // remove strike-through if unmarked/unchecked
     list.insertBefore(editBtn, list.children[4]);
   } else {
-    alert("failed");
+    showToast(true);
     list.children[1].checked = true;
   }
 }

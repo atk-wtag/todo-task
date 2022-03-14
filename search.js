@@ -1,10 +1,17 @@
 async function search(text) {
   disableWindow();
   removeAllChild(todoList);
-  state.all = await searchByText(text);
-  removeAllChild(todoList);
-  reset_showing(state.all);
-  showTodos("append");
+  const obj = await searchByText(text);
+  if (obj.error) {
+    showToast(true);
+  } else {
+    state.all = obj.data;
+
+    removeAllChild(todoList);
+    reset_showing(state.all);
+    showTodos("append");
+    showToast(false);
+  }
   enableWindow();
 }
 

@@ -1,8 +1,9 @@
 function setDisabled(item) {
   const elem = item;
   elem.children[0].children[0].style.setProperty("display", "block");
-  elem.style.setProperty("pointer-events", "none");
-  elem.style.setProperty("opacity", ".6");
+  for (var i = 0; i < elem.children.length; i++) {
+    elem.children[i].className = "disabled";
+  }
 }
 
 function setEnabled(item) {
@@ -10,8 +11,9 @@ function setEnabled(item) {
 
   elem.children[0].children[0].style.setProperty("display", "none");
 
-  elem.style.setProperty("pointer-events", "auto");
-  elem.style.setProperty("opacity", "1.0");
+  for (var i = 0; i < elem.children.length; i++) {
+    elem.children[i].className = "";
+  }
 }
 
 function disableWindow() {

@@ -7,6 +7,7 @@ async function reset() {
   const allTodos = await getAll();
   const data = allTodos.data;
   const error = allTodos.error;
+
   if (data.length === 0) {
     setTimeout(() => {
       preloader.remove();
@@ -18,7 +19,6 @@ async function reset() {
       allBtn.setAttribute("disabled", true);
       searchBtn.setAttribute("disabled", true);
     }, 1000);
-
     return;
   }
   setState("all", allTodos.data);

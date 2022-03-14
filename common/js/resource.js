@@ -18,3 +18,21 @@ function sanitizeString(str) {
 
   return str;
 }
+
+function showToast(error) {
+  let text;
+
+  if (error === true) {
+    text = "Failed. An Error Occurred";
+    toast.className = "show-err";
+  } else if (error === false) {
+    text = "Successful";
+
+    toast.className = "show-no-err";
+  }
+  toast.innerText = text;
+
+  setTimeout(function () {
+    toast.className = toast.className.replace("show", "");
+  }, 1500);
+}
