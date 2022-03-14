@@ -25,9 +25,11 @@ function showTodos(placement) {
       placement
     );
   }
+  enableWindow();
 }
 
 function loadMore() {
+  disableWindow();
   const show = state.showing;
   const from = show[0] - 9;
   const to = show[1] - 9;
@@ -48,7 +50,6 @@ async function showCompleted() {
 
   setState("pointer", "completed");
   showTodos("append");
-  enableWindow();
 }
 
 async function showIncomplete() {
@@ -64,7 +65,6 @@ async function showIncomplete() {
 
   setState("pointer", "incomplete");
   showTodos("append");
-  enableWindow();
 }
 
 async function showAll() {

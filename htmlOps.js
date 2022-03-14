@@ -156,9 +156,8 @@ function createNewFormList() {
       e.preventDefault();
       const todo_val = inputBox.value.trim();
       if (!todo_val) return;
-      addTodo(todo_val);
-
       deleteElement(this.parentNode);
+      addTodo(todo_val);
     };
   }
 }

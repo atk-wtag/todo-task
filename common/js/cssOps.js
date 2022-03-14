@@ -1,6 +1,5 @@
 function setDisabled(item) {
   const elem = item;
-  console.log(elem);
   elem.children[0].children[0].style.setProperty("display", "block");
   elem.style.setProperty("pointer-events", "none");
   elem.style.setProperty("opacity", ".6");

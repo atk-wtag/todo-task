@@ -1,35 +1,31 @@
 // loads all todos from DB
 async function loadTodos(r = true) {
-  if (r) {
-    await reset();
-  }
+  if (r) await reset();
+
   removeAllChild(todoList);
   setState("pointer", "all");
   reset_showing(state.all);
   showTodos("append");
-  enableWindow();
   return;
 }
 
 // add new todo to the state object
 async function addTodo(todo) {
+  disableWindow();
   let input = todo;
   if (input) {
-    setDisabled(todoList.children[1]);
     input = sanitizeString(input);
     let key = Date.now(); // current time in ms, to use as db key and <li> id
 
     const obj = await create(key, input);
 
-    const date = getCurrDate();
     if (!obj.error) {
       searchBar.value = "";
 
       await state.all.push(obj.data[0]);
-      showAll();
+      loadTodos();
     } else alert("failed to add");
   }
-  setEnabled(todoList.children[1]);
 }
 
 // deletes a todo
@@ -83,7 +79,6 @@ async function updateTodo(prev_val) {
 async function changeStatus() {
   const list = this.parentNode;
   setDisabled(list);
-  console.log(list.children);
   try {
     if (list.children[1].checked) {
       await markAsDone.call(list.children[1]);
