@@ -36,6 +36,7 @@ function loadMore() {
 }
 
 async function showCompleted() {
+  disableWindow();
   const len = searchBar.value.length;
   state.all =
     len >= 3
@@ -47,9 +48,11 @@ async function showCompleted() {
 
   setState("pointer", "completed");
   showTodos("append");
+  enableWindow();
 }
 
 async function showIncomplete() {
+  disableWindow();
   const len = searchBar.value.length;
   state.all =
     len >= 3
@@ -61,11 +64,13 @@ async function showIncomplete() {
 
   setState("pointer", "incomplete");
   showTodos("append");
+  enableWindow();
 }
 
 async function showAll() {
   const len = searchBar.value.length;
   if (len >= 3) {
+    disableWindow();
     state.all = await getAllwithText(searchBar.value);
     removeAllChild(todoList);
     loadTodos(false);

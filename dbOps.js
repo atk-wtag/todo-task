@@ -21,7 +21,7 @@ async function getAll() {
       .from("todos")
       .select()
       .order("id", { ascending: true });
-    return data;
+    return { data, error };
   } catch (err) {
     console.log(err);
   }

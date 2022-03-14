@@ -15,6 +15,8 @@ addJS("./common/js/resource.js");
 addJS("/filter.js");
 addJS("/common/js/stateOps.js");
 addJS("/search.js");
+addJS("/common/js/cssOps.js");
+addJS("/common/js/svgOps.js");
 
 //crud buttons
 let newInput = document.querySelector("[name=createBtn]"); // create button
@@ -34,19 +36,25 @@ const searchBtn = document.querySelector("[name=searchBtn]");
 
 //preloading div
 const preloader = document.querySelector("[class=preloader]");
+
+//spinner
+const spinner = document.querySelector("[class=spinner]");
+
+//content divs
+const container = document.querySelector("[class=container]");
 const main_div = document.querySelector("[class=main-div]");
+const no_todos = document.querySelector("[class=no-todos]");
+const loadMoreDiv = document.querySelector("[class=loadMoreDiv]");
+const content = document.querySelector("[class=content]");
 
 newInput.addEventListener("click", () => createNewFormList());
 
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    preloader.remove();
-    main_div.style.setProperty("visibility", "visible");
-    main_div.style.setProperty("opacity", "1");
-    main_div.style.setProperty("transition", "opacity .5s linear");
-  }, 2000);
-  const todos = loadTodos();
-  console.log(todos);
+window.addEventListener("load", async () => {
+  await loadTodos();
+  // setTimeout(() => {
+  preloader.remove();
+  main_div.style.setProperty("display", "block");
+  // }, 2000);
 });
 
 loadMoreBtn.addEventListener("click", () => loadMore());

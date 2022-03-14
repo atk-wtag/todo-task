@@ -11,7 +11,34 @@ ul li {
 }
 
 .preloader {
-  visibility: visible;
+  display: flex;
+}
+
+.spinner {
+  animation: rotation 2.5s infinite linear;
+  position: absolute;
+  z-index: 900;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+
+.card_spinner {
+  animation: rotation 2.5s infinite linear;
+  position: relative;
+  z-index: 900;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .preloader object {
@@ -22,20 +49,13 @@ ul li {
   top: 40vh;
 }
 
-.main-div {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
-}
-
 .no-todos {
-  visibility: hidden;
+  display: none;
   position: absolute;
   left: 43.45%;
   right: 35.45%;
   top: 42.22%;
   bottom: 34.93%;
-
   color: #32394b;
 }
 
@@ -43,4 +63,18 @@ ul li {
   margin-top: 1vh;
   position: relative;
   left: -4vw;
+}
+
+.main-div {
+  display: none;
+}
+
+.main-div {
+  display: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
