@@ -68,9 +68,9 @@ async function showIncomplete() {
 }
 
 async function showAll() {
+  disableWindow();
   const len = searchBar.value.length;
   if (len >= 3) {
-    disableWindow();
     state.all = await getAllwithText(searchBar.value);
     removeAllChild(todoList);
     loadTodos(false);

@@ -1,7 +1,6 @@
 // loads all todos from DB
 async function loadTodos(r = true) {
   if (r) {
-    disableWindow();
     await reset();
   }
   removeAllChild(todoList);
