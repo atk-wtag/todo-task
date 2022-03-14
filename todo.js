@@ -41,7 +41,10 @@ async function deleteTodo() {
     list.remove();
     if (state.pointer == "completed") showCompleted();
     else if (state.pointer == "incomplete") showIncomplete();
-    else loadTodos();
+    else {
+      disableWindow();
+      loadTodos();
+    }
   }
 }
 // edit a todo
