@@ -41,7 +41,7 @@ function showNoTodosFound() {
 function hideNoTodosFound() {
   main_div.style.setProperty("display", "block");
   no_todos.style.setProperty("display", "none");
-  loadMoreDiv.style.setProperty("display", "block");
+  // loadMoreDiv.style.setProperty("display", "block");
   incompleteBtn.removeAttribute("disabled");
   completedBTn.removeAttribute("disabled");
   allBtn.removeAttribute("disabled");

@@ -1,13 +1,13 @@
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background-color: rgba(248, 249, 255, 1);
   font-family: "Roboto", sans-serif;
-}
-ul li {
-  color: black;
+  margin: 0;
+  padding: 0;
 }
 
 .preloader {
@@ -158,4 +158,196 @@ ul {
 .disabled {
   pointer-events: none;
   opacity: 0.6;
+}
+.container {
+  justify-content: center;
+}
+
+#navbar {
+  background: rgba(255, 255, 255, 1);
+  width: 100vw;
+  height: 6vh;
+  border: 1px solid #dde2ff;
+}
+
+#navBarObj {
+  position: relative;
+  top: 15%;
+  width: 100px;
+  float: left;
+  margin: 0 12vw;
+}
+
+#searchDiv {
+  position: relative;
+  top: 30%;
+  float: right;
+  margin: 0 12vw;
+}
+
+.todo-ul-div {
+  margin-top: 4vh;
+}
+
+#todoList {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+.todoListElem {
+  width: 450px;
+  background: #ffffff;
+  border: 1px solid #dde2ff;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 1%;
+}
+
+.todoListElem button {
+  width: 10px;
+  display: inline-block;
+}
+
+.main-div {
+  width: 100vw;
+}
+
+#content {
+  margin: 0 12vw;
+}
+
+.lg-txt {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 35px;
+  color: rgba(50, 57, 75, 1);
+}
+
+.md-txt {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  color: rgba(50, 57, 75, 1);
+}
+
+.sm-txt {
+  color: rgba(187, 189, 208, 1);
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.completed {
+  position: relative;
+  display: flex;
+  float: right;
+  max-width: 50%;
+  background: #7a8dfd;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+  color: rgba(255, 255, 255, 1);
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.checkboxDiv {
+  width: 50%;
+  display: flex;
+  gap: 30px;
+  justify-content: left;
+}
+
+.bottomDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filterBtn {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 19px;
+  color: #32394b;
+  background: #ffffff;
+  border: 1px solid #dde2ff;
+  border-radius: 5px;
+  height: 36px;
+  min-height: 4vh;
+  min-width: 3vw;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.filterBtn:hover {
+  box-shadow: #dde2ff 0px 1px 0px, #dde2ff 0px 0px 8px;
+}
+
+#filterBtnDiv {
+  display: flex;
+  direction: row;
+  gap: 0.5vw;
+}
+
+.loadMoreDiv {
+  position: relative;
+  margin: 3.5%;
+  display: flex;
+  justify-content: center;
+}
+
+#loadMoreBtn {
+  background: #32394b;
+  border: 1px solid #dde2ff;
+  border-radius: 5px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+
+  min-height: 4vh;
+  min-width: 8vw;
+
+  text-align: center;
+}
+
+textarea {
+  position: relative;
+  background: #ffffff;
+  border: 3px solid #d1d8ff;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 100%;
+  height: 40%;
+}
+
+#createBtn {
+  background: #7a8dfd;
+  border: 1px solid #7a8dfd;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  min-height: 4vh;
+  min-width: 6vw;
+
+  text-align: center;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+#btnsDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edtDltBtn {
+  background: transparent;
+  border: none !important;
+}
+
+.checkboxDiv {
 }

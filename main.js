@@ -43,6 +43,9 @@ const spinner = document.querySelector("[class=spinner]");
 //toast div
 const toast = document.querySelector("[id=toast]");
 
+//navbar
+const navbar = document.querySelector("[id=navbar]");
+
 //content divs
 const container = document.querySelector("[class=container]");
 const main_div = document.querySelector("[class=main-div]");

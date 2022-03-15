@@ -53,25 +53,64 @@
       <!-- main div (todos) -->
       <div class="main-div">
         <!-- navbar -->
-        <div class="navbar" style="margin-bottom: 1vh">
-          <input name="searchBar" type="text" placeholder="search text" />
-          <button name="searchBtn">Search</button>
+        <div id="navbar">
+          <object id="navBarObj" data="./common/img/leaf.svg"></object>
+
+          <!-- search div -->
+          <div id="searchDiv">
+            <input
+              id="searchBar"
+              name="searchBar"
+              type="text"
+              placeholder="search text"
+            />
+            <button id="searchBtn" name="searchBtn">Search</button>
+          </div>
+          <!-- search div end-->
         </div>
         <!-- navbar end-->
 
         <!-- content div -->
         <div id="content" class="disabled">
-          <button name="createBtn">Create</button>
-          <button name="allTodoBtn">All</button>
-          <button name="incompleteBtn">Incomplete</button>
-          <button name="completedBtn">Completed</button>
+          <!-- create button div -->
+          <div><p class="lg-txt">Add Tasks</p></div>
+
+          <div id="btnsDiv">
+            <div id="createBtnDiv">
+              <button id="createBtn" name="createBtn">
+                <svg
+                  id="createSVG"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 6.66667H9.33333V0H6.66667V6.66667H0V9.33333H6.66667V16H9.33333V9.33333H16V6.66667Z"
+                    fill="white"
+                  />
+                </svg>
+                Create
+              </button>
+            </div>
+            <!-- create button div end-->
+
+            <!-- filter buttons div -->
+            <div id="filterBtnDiv">
+              <button class="filterBtn" name="allTodoBtn">All</button>
+              <button class="filterBtn" name="incompleteBtn">Incomplete</button>
+              <button class="filterBtn" name="completedBtn">Completed</button>
+            </div>
+            <!-- filter buttons div end-->
+          </div>
 
           <div class="todo-ul-div">
-            <ul id="todoList"></ul>
+            <div id="todoList"></div>
           </div>
 
           <div class="loadMoreDiv">
-            <button name="loadMoreBtn">Load More</button>
+            <button id="loadMoreBtn" name="loadMoreBtn">Load More</button>
           </div>
         </div>
         <!-- content div end -->

@@ -27,11 +27,20 @@ function createTodoElement(
   completed = null,
   completed_at_node = null
 ) {
-  const li = document.createElement("li"); // new <li> element
+  const li = document.createElement("div"); // new <div> element
 
   //spinner animation
-  const sp = document.createElement("span");
+  const sp = document.createElement("div");
+  sp.setAttribute("class", "spinnerDiv");
   sp.innerHTML = getCardSpinner();
+
+  //bottom elemnts div
+  const bottomDiv = document.createElement("div");
+  bottomDiv.setAttribute("class", "bottomDiv");
+
+  //checkbox, buttons div
+  const checkboxDiv = document.createElement("div");
+  checkboxDiv.setAttribute("class", "checkboxDiv");
 
   // checkbox to mark as done
   const checkBox = document.createElement("input");
@@ -41,30 +50,52 @@ function createTodoElement(
   // label to act as to-do text
   const label = document.createElement("label");
   label.innerText = desc;
+  label.setAttribute("class", "md-txt");
 
-  const date = document.createElement("label");
+  const date = document.createElement("p");
   date.innerText = ` created on: ${created_at}`;
-
+  date.setAttribute("class", "sm-txt");
   // new edit button
-  let editBtn = createButton("Edit", editTodo, "margin-left : 1vw");
+  let editBtn = createButton("", editTodo);
+  editBtn.setAttribute("class", "edtDltBtn");
+  editBtn.innerHTML = getEditIcon();
 
   // new delete button
-  let delBtn = createButton("Delete", deleteTodo, "margin-left : 1vw");
+  let delBtn = createButton("", deleteTodo);
+  delBtn.setAttribute("class", "edtDltBtn");
+  delBtn.innerHTML = getDltBtn();
+
   // strike-through based on the status
 
   li.setAttribute("id", key);
+  li.setAttribute("class", "todoListElem");
 
   li.prepend(sp);
-  li.appendChild(checkBox);
+
+  //add buttons the the div
+  checkboxDiv.appendChild(checkBox);
+
+  // add element to the bottom div
+
   li.appendChild(label);
   li.appendChild(date);
   if (completed) {
     checkBox.checked = true;
-    label.setAttribute("style", "text-decoration:line-through;");
-  } else li.appendChild(editBtn);
-  li.appendChild(delBtn);
+    label.style.setProperty("text-decoration", "line-through");
+    label.style.setProperty("color", "rgba(11, 195, 117, 1)");
+  } else checkboxDiv.appendChild(editBtn);
 
-  completed ? li.appendChild(completed_at_node) : undefined;
+  checkboxDiv.appendChild(delBtn);
+
+  bottomDiv.appendChild(checkboxDiv);
+
+  if (completed) {
+    const completed_div = document.createElement("div");
+    completed_div.setAttribute("class", "completed");
+    completed_div.appendChild(completed_at_node);
+    bottomDiv.appendChild(completed_div);
+  }
+  li.appendChild(bottomDiv);
 
   li.setAttribute("style", "margin: 1vh 0");
 
@@ -73,17 +104,22 @@ function createTodoElement(
 
 // make an editable input box
 function makeEditable(list) {
-  const labelData = list.children[2].innerText; // current todo text
+  const div = list.parentNode.parentNode;
 
-  const newNode = replaceNode(list, list.children[2], "textarea", labelData); // replaces todo text label with textarea input
+  const labelData = div.children[1].innerText; // current todo text
+
+  const newNode = replaceNode(div, div.children[1], "textarea", labelData); // replaces todo text label with textarea input
 
   const saveBtn = createButton(
     "save",
-    () => updateTodo.call(list.children[4]),
+    () => updateTodo.call(list.children[1]),
     "margin-left: 1vw"
   ); // a new save button element
 
-  const newBtn = replaceNode(list, list.children[4], "button", "save", saveBtn); // replaces edit button with save button
+  // const newBtn = replaceNode(list, list.children[1], "button", "save", saveBtn); // replaces edit button with save button
+
+  list.children[1].remove();
+  list.insertBefore(saveBtn, list.children[0]);
 
   return newNode; // returns the newly created textarea element.
 }
@@ -116,6 +152,7 @@ function replaceNode(list, oldNode, newNodeType, text, preMadeNode = null) {
 function createNewFormList() {
   if (!elementExists("form")) {
     const li = document.createElement("li"); // new <li> element
+    li.setAttribute("class", "todoListElem");
 
     // new form
     const form = document.createElement("form");

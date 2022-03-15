@@ -1,8 +1,7 @@
 // loads all todos from DB
 async function loadTodos(r = true) {
-  removeAllChild(todoList);
-
   if (r) await reset();
+  removeAllChild(todoList);
 
   setState("pointer", "all");
   reset_showing(state.all);
@@ -32,15 +31,19 @@ async function addTodo(todo) {
 // deletes a todo
 async function deleteTodo() {
   const list = this.parentNode;
-  setDisabled(list);
-  let id = list.id; // id of the <li> element
+  const div = list.parentNode.parentNode;
+
+  setDisabled(div);
+  let id = div.id; // id of the <div> element
 
   const deleted = await deleteByID(id);
-  setEnabled(list);
-  if (deleted.error) showToast(true);
-  else {
+  setEnabled(div);
+  if (deleted.error) {
+    showToast(true);
+    loadTodos();
+  } else {
     showToast(false);
-    list.remove();
+    div.remove();
     if (state.pointer == "completed") showCompleted();
     else if (state.pointer == "incomplete") showIncomplete();
     else {
@@ -57,103 +60,85 @@ function editTodo() {
 
 async function updateTodo() {
   const list = this.parentNode;
-  let value = list.children[2].value.trim(); // new textarea value
+  const div = list.parentNode.parentNode;
+
+  let value = div.children[1].value.trim(); // new textarea value
   value = sanitizeString(value);
   if (!value) return;
-  setDisabled(list);
+  setDisabled(div);
 
-  list.children[4].remove(); // delete 'save' button
-  list.removeChild(list.children[2]); // removes the textarea element from <li>
+  list.children[0].remove(); // delete 'save' button
+  div.removeChild(div.children[1]); // removes the textarea element from <div>
 
   const updtlabel = document.createElement("label"); // a new label element
   updtlabel.innerText = value; // set new label value to textarea value
   updtlabel.className = "disabled";
-  list.insertBefore(updtlabel, list.children[2]); // add the new label to <li> before the 'save' button
+  div.insertBefore(updtlabel, div.children[1]); // add the new label to <div> before the 'created at' node
 
-  const update = await updateByID(list.id, value);
+  const update = await updateByID(div.id, value);
   if (update.error) {
     showToast(true);
     reset();
-  } else showToast(false);
+  } else {
+    showToast(false);
+    disableWindow();
+    loadTodos();
+  }
 
-  const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
-  list.insertBefore(editBtn, list.children[4]);
-  setEnabled(list);
+  setEnabled(div);
 }
 
 // change mark-as-done (toggle checkbox). invoked when the checkbox is clicked
 async function changeStatus() {
   const list = this.parentNode;
-  setDisabled(list);
+  const div = list.parentNode;
+  const parentDiv = div.parentNode;
+
+  setDisabled(parentDiv);
   try {
-    if (list.children[1].checked) {
-      await markAsDone.call(list.children[1]);
+    if (list.children[0].checked) {
+      await markAsDone.call(list.children[0]);
     } else {
-      await markAsUndone.call(list.children[1]);
+      await markAsUndone.call(list.children[0]);
     }
     if (state.pointer === "completed") showCompleted();
     else if (state.pointer === "incomplete") showIncomplete();
+    else if (state.pointer === "all") {
+      disableWindow();
+      loadTodos();
+    }
+
     showToast(false);
   } catch (e) {
     console.log(e);
     showToast(true);
   } finally {
-    setEnabled(list);
+    setEnabled(parentDiv);
   }
 }
 
 // makes todo completed
 async function markAsDone() {
   const list = this.parentNode;
-  const id = list.id;
-  const text = list.children[2].innerText || list.children[2].value; // todo text label
+  const div = list.parentNode.parentNode;
 
-  list.childNodes[4].remove();
-
-  const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
-
-  const checked = await toggleCompleted(id, true);
-  if (!checked.error) {
-    const newText = document.createElement("label");
-    newText.innerText = text;
-
-    newTextNode = replaceNode(list, list.children[2], "label", text, newText);
-    newTextNode.style.setProperty("text-decoration", "line-through"); // strike-through if marked/checked
-    newTextNode.className = "disabled"; // strike-through if marked/checked
-
-    const completed_at = checked.data[0].completed_at.slice(0, 10);
-
-    if (completed_at) {
-      const created = checked.data[0].created_at.slice(0, 10);
-
-      list.appendChild(getCompletedNode(created, completed_at));
-    }
-    await updateByID(id, text);
-  } else {
-    showToast(true);
-    list.children[1].checked = false;
-    // remove strike-through for error, and add the 'edit' button
-    list.insertBefore(editBtn, list.children[4]);
-  }
+  const id = div.id;
+  const text = div.children[1].innerText || div.children[1].value; // todo text label
+  // list.children[1].remove();
+  await toggleCompleted(id, true, text);
 }
 
 // makes todo incomplete
 async function markAsUndone() {
   const list = this.parentNode;
-  const id = list.id;
-  const label = list.childNodes[2]; // todo text label
+  const div = list.parentNode.parentNode;
 
-  list.removeChild(list.children[list.children.length - 1]); // remove completed at
+  const id = div.id;
+  const label = div.children[1]; // todo text label
+  label.setAttribute("class", "md-txt");
+  div.children[div.children.length - 1].remove(); // remove completed at
 
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
 
-  const checked = await toggleCompleted(id, false);
-  if (!checked.error) {
-    // modifyState(id, "description", label.innerText);
-    label.style.setProperty("text-decoration", "none"); // remove strike-through if unmarked/unchecked
-    list.insertBefore(editBtn, list.children[4]);
-  } else {
-    showToast(true);
-    list.children[1].checked = true;
-  }
+  await toggleCompleted(id, false);
 }

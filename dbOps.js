@@ -55,13 +55,25 @@ async function updateByID(id, desc) {
   }
 }
 
-async function toggleCompleted(id, done) {
+async function toggleCompleted(id, done, text) {
   try {
     const completed_at = done ? getCurrDate() : null;
-    const { data, error } = await spConn
-      .from("todos")
-      .update({ completed: done, completed_at: completed_at })
-      .match({ u_id: id });
+    const { data, error } = text
+      ? await spConn
+          .from("todos")
+          .update({
+            completed: done,
+            completed_at: completed_at,
+            description: text,
+          })
+          .match({ u_id: id })
+      : await spConn
+          .from("todos")
+          .update({
+            completed: done,
+            completed_at: completed_at,
+          })
+          .match({ u_id: id });
     return { data, error };
   } catch (err) {
     console.log(err);
