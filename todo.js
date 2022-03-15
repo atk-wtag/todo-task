@@ -1,8 +1,9 @@
 // loads all todos from DB
 async function loadTodos(r = true) {
+  removeAllChild(todoList);
+
   if (r) await reset();
 
-  removeAllChild(todoList);
   setState("pointer", "all");
   reset_showing(state.all);
   showTodos("append");
@@ -21,7 +22,7 @@ async function addTodo(todo) {
 
     if (!obj.error) {
       searchBar.value = "";
-      await state.all.push(obj.data[0]);
+      // await state.all.push(obj.data[0]);
       await loadTodos();
       showToast(false);
     } else showToast(true);

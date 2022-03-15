@@ -54,10 +54,10 @@ newInput.addEventListener("click", () => createNewFormList());
 
 window.addEventListener("load", async () => {
   await loadTodos();
-  setTimeout(() => {
-    preloader.remove();
-    main_div.style.setProperty("display", "block");
-  }, 2000);
+  // setTimeout(() => {
+  preloader.remove();
+  main_div.style.setProperty("display", "block");
+  // }, 2000);
 });
 
 loadMoreBtn.addEventListener("click", () => loadMore());

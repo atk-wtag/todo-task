@@ -27,3 +27,23 @@ function enableWindow() {
   content.style.setProperty("opacity", "1.0");
   spinner.style.setProperty("display", "none");
 }
+
+function showNoTodosFound() {
+  main_div.style.setProperty("display", "block");
+  no_todos.style.setProperty("display", "block");
+  loadMoreDiv.style.setProperty("display", "none");
+  incompleteBtn.setAttribute("disabled", true);
+  completedBTn.setAttribute("disabled", true);
+  allBtn.setAttribute("disabled", true);
+  searchBtn.setAttribute("disabled", true);
+}
+
+function hideNoTodosFound() {
+  main_div.style.setProperty("display", "block");
+  no_todos.style.setProperty("display", "none");
+  loadMoreDiv.style.setProperty("display", "block");
+  incompleteBtn.removeAttribute("disabled");
+  completedBTn.removeAttribute("disabled");
+  allBtn.removeAttribute("disabled");
+  searchBtn.removeAttribute("disabled");
+}

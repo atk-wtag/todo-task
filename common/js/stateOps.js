@@ -8,21 +8,17 @@ async function reset() {
   const data = allTodos.data;
   const error = allTodos.error;
 
+  setState("all", data);
+
   if (data.length === 0) {
     setTimeout(() => {
       preloader.remove();
       enableWindow();
-      main_div.style.setProperty("display", "block");
-      no_todos.style.setProperty("display", "block");
-      loadMoreDiv.style.setProperty("display", "none");
-      incompleteBtn.setAttribute("disabled", true);
-      completedBTn.setAttribute("disabled", true);
-      allBtn.setAttribute("disabled", true);
-      searchBtn.setAttribute("disabled", true);
+      showNoTodosFound();
     }, 1000);
-    return;
+  } else {
+    hideNoTodosFound();
   }
-  setState("all", allTodos.data);
 }
 
 function reset_showing(obj) {
