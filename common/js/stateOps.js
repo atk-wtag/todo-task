@@ -11,6 +11,7 @@ async function reset() {
   if (data.length === 0) {
     setTimeout(() => {
       preloader.remove();
+      enableWindow();
       main_div.style.setProperty("display", "block");
       no_todos.style.setProperty("display", "block");
       loadMoreDiv.style.setProperty("display", "none");
