@@ -19,7 +19,7 @@ async function create(u_id, desc) {
 async function getAll() {
   try {
     const { data, error } = await spConn
-      .from("asd")
+      .from("todos")
       .select()
       .order("id", { ascending: true });
     return { data, error };
