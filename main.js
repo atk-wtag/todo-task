@@ -76,6 +76,15 @@ incompleteBtn.addEventListener("click", () => showIncomplete());
 
 allBtn.addEventListener("click", () => showAll());
 
+searchBtn.addEventListener("click", () => {
+  searchBar.classList.add("fadeIn");
+});
+
+content.addEventListener("click", () => {
+  searchBar.classList.remove("fadeIn");
+  searchBar.classList.add("fadeOut");
+});
+
 searchBar.addEventListener("keyup", function () {
   timer = setTimeout(() => {
     const searchText = this.value;
