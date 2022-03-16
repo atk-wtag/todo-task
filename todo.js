@@ -79,7 +79,6 @@ async function updateTodo() {
   const editBtn = createButton("", editTodo);
   editBtn.setAttribute("class", "edtDltBtn");
   editBtn.innerHTML = getEditIcon();
-
   const update = await updateByID(div.id, value);
 
   list.insertBefore(editBtn, list.children[1]);
@@ -88,8 +87,7 @@ async function updateTodo() {
     showToast(true);
   } else {
     showToast(false);
-    if (state.pointer == "completed") showCompleted();
-    else if (state.pointer == "incomplete") showIncomplete();
+    if (state.pointer == "incomplete") showIncomplete();
   }
 
   setEnabled(div);

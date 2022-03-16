@@ -179,9 +179,10 @@ function createNewFormList() {
   if (!elementExists("form")) {
     const addNew = function (e) {
       e.preventDefault();
+      console.log(this);
       const todo_val = inputBox.value.trim();
       if (!todo_val) return;
-      deleteElement(this.parentNode);
+      deleteElement(this.parentNode.parentNode);
       addTodo(todo_val);
     };
 
@@ -201,6 +202,11 @@ function createNewFormList() {
     inputBox.setAttribute("placeholder", "Todo");
     inputBox.setAttribute("rows", "5");
 
+    inputBox.addEventListener("keypress", (event) => {
+      event.key === "Enter" && !event.shiftKey
+        ? addNew.call(submit, event)
+        : undefined;
+    });
     // submit button
     const submit = createButton("", addNew, "");
     submit.innerText = "Add Task";
