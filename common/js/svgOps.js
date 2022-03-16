@@ -1,8 +1,8 @@
 function getCardSpinner() {
   return `<svg
         class="card_spinner"
-        width="51"
-        height="51"
+        width="34"
+        height="34"
         viewBox="0 0 51 51"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -37,9 +37,24 @@ function getEditIcon() {
 `;
 }
 
-function getDltBtn() {
+function getDltIcon() {
   return `<svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M17 24H3C1.896 24 1 23.104 1 22V6H19V22C19 23.104 18.104 24 17 24ZM8 10C8 9.448 7.552 9 7 9C6.448 9 6 9.448 6 10V19C6 19.552 6.448 20 7 20C7.552 20 8 19.552 8 19V10ZM14 10C14 9.448 13.552 9 13 9C12.448 9 12 9.448 12 10V19C12 19.552 12.448 20 13 20C13.552 20 14 19.552 14 19V10ZM20 5H0V3H6V1.5C6 0.673 6.673 0 7.5 0H12.5C13.325 0 14 0.671 14 1.5V3H20V5ZM8 3H12V2H8V3Z" fill="#BBBDD0"/>
 </svg>
 `;
+}
+
+function getCheckbox() {
+  return `<svg
+    width="24"
+    height="19"
+    viewBox="0 0 24 19"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20.285 0L9 11.567L3.714 6.556L0 10.272L9 19L24 3.715L20.285 0Z"
+      fill="#BBBDD0"
+    />
+  </svg>`;
 }

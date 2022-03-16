@@ -30,6 +30,8 @@ const incompleteBtn = document.querySelector("[name=incompleteBtn]"); // filter 
 const completedBTn = document.querySelector("[name=completedBtn]"); // filter completed
 const loadMoreBtn = document.querySelector("[name=loadMoreBtn]"); // load more
 
+const filterBtnDiv = document.querySelector("[id=filterBtnDiv]");
+
 //search
 const searchBar = document.querySelector("[name=searchBar]");
 const searchBtn = document.querySelector("[name=searchBtn]");
@@ -52,6 +54,9 @@ const main_div = document.querySelector("[class=main-div]");
 const no_todos = document.querySelector("[class=no-todos]");
 const loadMoreDiv = document.querySelector("[class=loadMoreDiv]");
 const content = document.querySelector("[id=content]");
+
+//no-todos text
+const no_todos_txt = document.querySelector("[id=no-todos-txt]");
 
 newInput.addEventListener("click", () => createNewFormList());
 

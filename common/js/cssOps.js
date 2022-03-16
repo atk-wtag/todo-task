@@ -1,19 +1,17 @@
 function setDisabled(item) {
   const elem = item;
-  elem.children[0].children[0].style.setProperty("display", "block");
-  for (var i = 0; i < elem.children.length; i++) {
-    elem.children[i].className = "disabled";
-  }
+  const spinner = elem.children[1].children[1].children[0].children[0];
+  elem.classList.add("disabled");
+  spinner.style.setProperty("display", "flex");
 }
 
 function setEnabled(item) {
   const elem = item;
 
-  elem.children[0].children[0].style.setProperty("display", "none");
+  const spinner = elem.children[1].children[1].children[0].children[0];
 
-  for (var i = 0; i < elem.children.length; i++) {
-    elem.children[i].className = "";
-  }
+  elem.classList.remove("disabled");
+  spinner.style.setProperty("display", "none");
 }
 
 function disableWindow() {
@@ -28,22 +26,22 @@ function enableWindow() {
   spinner.style.setProperty("display", "none");
 }
 
-function showNoTodosFound() {
+function showNoTodosFound(block = true, text = null) {
   main_div.style.setProperty("display", "block");
   no_todos.style.setProperty("display", "block");
   loadMoreDiv.style.setProperty("display", "none");
-  incompleteBtn.setAttribute("disabled", true);
-  completedBTn.setAttribute("disabled", true);
-  allBtn.setAttribute("disabled", true);
-  searchBtn.setAttribute("disabled", true);
+  if (block) {
+    filterBtnDiv.classList.add("disabled");
+    searchBtn.setAttribute("disabled", true);
+  }
+  no_todos_txt.innerText = text;
 }
 
 function hideNoTodosFound() {
   main_div.style.setProperty("display", "block");
   no_todos.style.setProperty("display", "none");
-  // loadMoreDiv.style.setProperty("display", "block");
-  incompleteBtn.removeAttribute("disabled");
-  completedBTn.removeAttribute("disabled");
-  allBtn.removeAttribute("disabled");
+  loadMoreDiv.style.setProperty("display", "flex");
+  filterBtnDiv.classList.remove("disabled");
+
   searchBtn.removeAttribute("disabled");
 }

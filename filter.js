@@ -1,6 +1,15 @@
 function showTodos(placement) {
+  hideNoTodosFound();
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
   const allTodos = state.all;
+
+  if (state.all.length === 0) {
+    loadMoreDiv.style.setProperty("display", "none");
+    enableWindow();
+    if (state.pointer != "all") showNoTodosFound(false);
+    else showNoTodosFound();
+    return;
+  } else hideNoTodosFound();
 
   const show = state.showing;
   const from = show[0];
@@ -30,11 +39,14 @@ function showTodos(placement) {
 
 function loadMore() {
   disableWindow();
-  const show = state.showing;
-  const from = show[0] - 9;
-  const to = show[1] - 9;
-  setState("showing", [from, to]);
-  showTodos("append");
+
+  setTimeout(() => {
+    const show = state.showing;
+    const from = show[0] - 9;
+    const to = show[1] - 9;
+    setState("showing", [from, to]);
+    showTodos("append");
+  }, 950);
 }
 
 async function showCompleted() {
@@ -81,15 +93,9 @@ async function showAll() {
   disableWindow();
   const len = searchBar.value.length;
 
-  const obj = len >= 3 ? await getAllwithText(searchBar.value) : await getAll();
-  if (obj.error) showToast(true);
-  else {
-    state.all = obj.data;
-    showToast(false);
-    removeAllChild(todoList);
-    reset_showing(state.all);
-
-    setState("pointer", "all");
-    showTodos("append");
+  if (len >= 3) {
+    await search(sanitizeString(searchBar.value));
+  } else {
+    loadTodos();
   }
 }

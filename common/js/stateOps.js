@@ -14,7 +14,7 @@ async function reset() {
     setTimeout(() => {
       preloader.remove();
       enableWindow();
-      showNoTodosFound();
+      showNoTodosFound(true, `You haven't added any task. Please, add one`);
     }, 1000);
   } else {
     hideNoTodosFound();
@@ -25,4 +25,10 @@ function reset_showing(obj) {
   const lastIdx = Object.keys(obj).length - 1;
   const firstIdx = lastIdx - 9;
   setState("showing", [lastIdx, firstIdx]);
+}
+
+async function removeById(id) {
+  state.all = await state.all.filter((item) => {
+    return parseInt(item.u_id) != id;
+  });
 }

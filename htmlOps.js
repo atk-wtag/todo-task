@@ -29,10 +29,19 @@ function createTodoElement(
 ) {
   const li = document.createElement("div"); // new <div> element
 
-  //spinner animation
-  const sp = document.createElement("div");
+  //mid div
+  const midDiv = document.createElement("div");
+  midDiv.setAttribute("class", "midDiv");
+
+  //spinner div
+  const sd = document.createElement("div");
+  sd.setAttribute("class", "spinner_div");
+
+  const sp = document.createElement("obj");
   sp.setAttribute("class", "spinnerDiv");
   sp.innerHTML = getCardSpinner();
+
+  sd.appendChild(sp); // add spinner to its div
 
   //bottom elemnts div
   const bottomDiv = document.createElement("div");
@@ -42,19 +51,34 @@ function createTodoElement(
   const checkboxDiv = document.createElement("div");
   checkboxDiv.setAttribute("class", "checkboxDiv");
 
-  // checkbox to mark as done
-  const checkBox = document.createElement("input");
-  checkBox.setAttribute("type", "checkbox");
-  checkBox.addEventListener("change", changeStatus);
+  // checkbox btn to mark as done
+  const checkBox = createButton("", markAsDone);
+  checkBox.setAttribute("class", "checkBtn");
+  checkBox.innerHTML = getCheckbox();
 
   // label to act as to-do text
   const label = document.createElement("label");
   label.innerText = desc;
   label.setAttribute("class", "md-txt");
 
+  // created at div
+  const cd = document.createElement("div");
+  cd.setAttribute("class", "created_at_div");
+
+  //date text
   const date = document.createElement("p");
   date.innerText = ` created on: ${created_at}`;
   date.setAttribute("class", "sm-txt");
+
+  cd.appendChild(date);
+
+  //add the todo text to the card
+  li.appendChild(label);
+
+  // add items to the mid div
+  midDiv.appendChild(cd); // add date
+  midDiv.appendChild(sd); // add spinner
+
   // new edit button
   let editBtn = createButton("", editTodo);
   editBtn.setAttribute("class", "edtDltBtn");
@@ -63,27 +87,28 @@ function createTodoElement(
   // new delete button
   let delBtn = createButton("", deleteTodo);
   delBtn.setAttribute("class", "edtDltBtn");
-  delBtn.innerHTML = getDltBtn();
+  delBtn.innerHTML = getDltIcon();
 
   // strike-through based on the status
 
   li.setAttribute("id", key);
   li.setAttribute("class", "todoListElem");
 
-  li.prepend(sp);
+  // li.prepend(sp);
 
   //add buttons the the div
-  checkboxDiv.appendChild(checkBox);
 
-  // add element to the bottom div
+  // add mid div to the card div
+  li.appendChild(midDiv);
 
-  li.appendChild(label);
-  li.appendChild(date);
   if (completed) {
     checkBox.checked = true;
     label.style.setProperty("text-decoration", "line-through");
     label.style.setProperty("color", "rgba(11, 195, 117, 1)");
-  } else checkboxDiv.appendChild(editBtn);
+  } else {
+    checkboxDiv.appendChild(checkBox);
+    checkboxDiv.appendChild(editBtn);
+  }
 
   checkboxDiv.appendChild(delBtn);
 
@@ -97,8 +122,6 @@ function createTodoElement(
   }
   li.appendChild(bottomDiv);
 
-  li.setAttribute("style", "margin: 1vh 0");
-
   return li;
 }
 
@@ -106,17 +129,20 @@ function createTodoElement(
 function makeEditable(list) {
   const div = list.parentNode.parentNode;
 
-  const labelData = div.children[1].innerText; // current todo text
+  const labelData = div.children[0].innerText; // current todo text
 
-  const newNode = replaceNode(div, div.children[1], "textarea", labelData); // replaces todo text label with textarea input
+  const newNode = replaceNode(div, div.children[0], "textarea", labelData); // replaces todo text label with textarea input
+  newNode.setAttribute("rows", 4);
 
-  const saveBtn = createButton(
-    "save",
-    () => updateTodo.call(list.children[1]),
-    "margin-left: 1vw"
-  ); // a new save button element
+  // update todo on enter key press
+  newNode.addEventListener("keypress", (event) => {
+    event.which === 13 && !event.shiftKey
+      ? updateTodo.call(list.children[1])
+      : undefined;
+  });
 
-  // const newBtn = replaceNode(list, list.children[1], "button", "save", saveBtn); // replaces edit button with save button
+  const saveBtn = createButton("save", () => updateTodo.call(list.children[1])); // a new save button element
+  saveBtn.setAttribute("class", "saveBtn");
 
   list.children[1].remove();
   list.insertBefore(saveBtn, list.children[0]);
@@ -151,51 +177,55 @@ function replaceNode(list, oldNode, newNodeType, text, preMadeNode = null) {
 
 function createNewFormList() {
   if (!elementExists("form")) {
-    const li = document.createElement("li"); // new <li> element
-    li.setAttribute("class", "todoListElem");
-
-    // new form
-    const form = document.createElement("form");
-
-    // new form input box
-    const inputBox = document.createElement("input");
-    inputBox.setAttribute("type", "text");
-    inputBox.setAttribute("name", "todoInputBox");
-    inputBox.setAttribute("placeholder", "Todo");
-
-    // submit button
-    const submit = createNewInput(
-      "submit",
-      "addTodoBtn",
-      "Add",
-      "margin-left: 1vw"
-    );
-
-    // delete button
-    const deleteBtn = createNewInput(
-      "button",
-      "deleteBtn",
-      "x",
-      "margin-left: 1vw"
-    );
-    deleteBtn.onclick = function () {
-      deleteElement(li);
-    };
-
-    form.appendChild(inputBox);
-    form.appendChild(submit);
-    form.appendChild(deleteBtn);
-
-    li.appendChild(form);
-    todoList.prepend(li);
-
-    form.onsubmit = function (e) {
+    const addNew = function (e) {
       e.preventDefault();
       const todo_val = inputBox.value.trim();
       if (!todo_val) return;
       deleteElement(this.parentNode);
       addTodo(todo_val);
     };
+
+    const li = document.createElement("div"); // new <div> element
+
+    const childDiv = document.createElement("div"); // new child <div> element
+    childDiv.setAttribute("class", "newTaskBottomDiv");
+
+    li.setAttribute("class", "todoListElem");
+
+    // new form
+    const form = document.createElement("form");
+
+    // new form input box
+    const inputBox = document.createElement("textarea");
+    inputBox.setAttribute("name", "todoInputBox");
+    inputBox.setAttribute("placeholder", "Todo");
+    inputBox.setAttribute("rows", "5");
+
+    // submit button
+    const submit = createButton("", addNew, "");
+    submit.innerText = "Add Task";
+    submit.setAttribute("class", "saveBtn");
+
+    // delete button
+    const deleteBtn = createButton(
+      "",
+      function (e) {
+        e.preventDefault();
+        deleteElement(li);
+      },
+      ""
+    );
+    deleteBtn.setAttribute("class", "edtDltBtn");
+    deleteBtn.innerHTML = getDltIcon();
+
+    form.appendChild(inputBox);
+
+    childDiv.appendChild(submit);
+    childDiv.appendChild(deleteBtn);
+
+    li.appendChild(form);
+    li.appendChild(childDiv);
+    todoList.prepend(li);
   }
 }
 
