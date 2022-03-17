@@ -26,11 +26,11 @@ function showToast(error) {
     text = "Failed. An Error Occurred";
     toast.className = "show-err";
   } else if (error === false) {
-    text = "Successful";
+    text = `${getTickMark()} Successful`;
 
     toast.className = "show-no-err";
   }
-  toast.innerText = text;
+  toast.innerHTML = text;
 
   setTimeout(function () {
     toast.className = toast.className.replace("show", "");

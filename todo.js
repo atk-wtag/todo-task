@@ -60,20 +60,20 @@ async function updateTodo() {
   const list = this.parentNode;
 
   const div = list.parentNode.parentNode;
-  let value = div.children[0].value.trim(); // new textarea value
+  let value = div.children[0].children[0].value.trim(); // new textarea value
   value = sanitizeString(value);
   if (!value) return;
 
   setDisabled(div);
 
   list.children[0].remove(); // delete 'save' button
-  div.removeChild(div.children[0]); // removes the textarea element from <div>
+  div.children[0].children[0].remove(); // removes the textarea element from <div>
 
   const updtlabel = document.createElement("label"); // a new label element
   updtlabel.innerText = value; // set new label value to textarea value
   updtlabel.classList.add("md-txt");
 
-  div.insertBefore(updtlabel, div.children[0]); // add the new label to <div> before the 'created at' node
+  div.children[0].insertBefore(updtlabel, div.children[0].children[0]); // add the new label to <div> before the 'created at' node
 
   //edit btn
   const editBtn = createButton("", editTodo);
@@ -142,8 +142,8 @@ async function markAsDone() {
   setDisabled(div);
 
   const id = div.id;
-  const text = div.children[0].innerText || div.children[0].value; // todo text label
-  console.log(text);
+  const text =
+    div.children[0].children[0].innerText || div.children[0].children[0].value; // todo text label
   await toggleCompleted(id, true, text);
 
   if (state.pointer === "incomplete") div.remove();

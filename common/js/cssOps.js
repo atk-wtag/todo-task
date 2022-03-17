@@ -7,7 +7,6 @@ function setDisabled(item) {
 
 function setEnabled(item) {
   const elem = item;
-
   const spinner = elem.children[1].children[1].children[0].children[0];
 
   elem.classList.remove("disabled");
@@ -44,4 +43,16 @@ function hideNoTodosFound() {
   filterBtnDiv.classList.remove("disabled");
 
   searchBtn.removeAttribute("disabled");
+}
+
+function toggleSearchBarVisibility() {
+  const searchBar = document.getElementById("searchBar");
+  searchBar.classList.contains("fadeIn")
+    ? hideSearchBar()
+    : searchBar.classList.add("fadeIn");
+}
+
+function hideSearchBar() {
+  const searchBar = document.getElementById("searchBar");
+  searchBar.classList.replace("fadeIn", "fadeOut");
 }

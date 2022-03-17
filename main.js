@@ -76,14 +76,9 @@ incompleteBtn.addEventListener("click", () => showIncomplete());
 
 allBtn.addEventListener("click", () => showAll());
 
-searchBtn.addEventListener("click", () => {
-  searchBar.classList.add("fadeIn");
-});
+searchBtn.addEventListener("click", () => toggleSearchBarVisibility());
 
-content.addEventListener("click", () => {
-  searchBar.classList.remove("fadeIn");
-  searchBar.classList.add("fadeOut");
-});
+content.addEventListener("mousedown", () => hideSearchBar());
 
 searchBar.addEventListener("keyup", function () {
   timer = setTimeout(() => {

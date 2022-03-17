@@ -19,6 +19,7 @@ async function search(text) {
 async function resetSearch() {
   if (searchBar.value.length >= 3) return;
   disableWindow();
+  loadMoreDiv.style.setProperty("display", "none");
   removeAllChild(todoList);
   await reset();
   reset_showing(state.all);

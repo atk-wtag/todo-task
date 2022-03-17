@@ -29,6 +29,9 @@ function createTodoElement(
 ) {
   const li = document.createElement("div"); // new <div> element
 
+  //top div
+  const topDiv = document.createElement("div");
+
   //mid div
   const midDiv = document.createElement("div");
   midDiv.setAttribute("class", "midDiv");
@@ -37,9 +40,10 @@ function createTodoElement(
   const sd = document.createElement("div");
   sd.setAttribute("class", "spinner_div");
 
+  //spinner object
   const sp = document.createElement("obj");
   sp.setAttribute("class", "spinnerDiv");
-  sp.innerHTML = getCardSpinner();
+  sp.innerHTML = getCardSpinner(); //spinner svg
 
   sd.appendChild(sp); // add spinner to its div
 
@@ -70,10 +74,12 @@ function createTodoElement(
   date.innerText = ` created on: ${created_at}`;
   date.setAttribute("class", "sm-txt");
 
-  cd.appendChild(date);
-
   //add the todo text to the card
   li.appendChild(label);
+
+  //add items to the top div
+  topDiv.appendChild(label);
+  topDiv.appendChild(date);
 
   // add items to the mid div
   midDiv.appendChild(cd); // add date
@@ -94,9 +100,8 @@ function createTodoElement(
   li.setAttribute("id", key);
   li.setAttribute("class", "todoListElem");
 
-  // li.prepend(sp);
-
-  //add buttons the the div
+  // add top div to the card div
+  li.appendChild(topDiv);
 
   // add mid div to the card div
   li.appendChild(midDiv);
@@ -129,10 +134,15 @@ function createTodoElement(
 function makeEditable(list) {
   const div = list.parentNode.parentNode;
 
-  const labelData = div.children[0].innerText; // current todo text
+  const labelData = div.children[0].children[0].innerText; // current todo text
 
-  const newNode = replaceNode(div, div.children[0], "textarea", labelData); // replaces todo text label with textarea input
-  newNode.setAttribute("rows", 4);
+  const newNode = replaceNode(
+    div.children[0],
+    div.children[0].children[0],
+    "textarea",
+    labelData
+  ); // replaces todo text label with textarea input
+  newNode.setAttribute("rows", 3);
 
   // update todo on enter key press
   newNode.addEventListener("keypress", (event) => {
@@ -144,7 +154,7 @@ function makeEditable(list) {
   const saveBtn = createButton("save", () => updateTodo.call(list.children[1])); // a new save button element
   saveBtn.setAttribute("class", "saveBtn");
 
-  list.children[1].remove();
+  list.children[1].remove(); //remove the edit button
   list.insertBefore(saveBtn, list.children[0]);
 
   return newNode; // returns the newly created textarea element.
@@ -200,7 +210,7 @@ function createNewFormList() {
     const inputBox = document.createElement("textarea");
     inputBox.setAttribute("name", "todoInputBox");
     inputBox.setAttribute("placeholder", "Todo");
-    inputBox.setAttribute("rows", "5");
+    inputBox.setAttribute("rows", "4");
 
     inputBox.addEventListener("keypress", (event) => {
       event.key === "Enter" && !event.shiftKey

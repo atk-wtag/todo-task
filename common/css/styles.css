@@ -182,7 +182,12 @@ ul {
 .container {
   justify-content: center;
 }
-
+textarea {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+}
 #navbar {
   background: rgba(255, 255, 255, 1);
   width: 100vw;
@@ -220,6 +225,7 @@ ul {
   line-height: 19px;
   width: 25vw;
   color: #32394b;
+  vertical-align: top;
 }
 
 .fadeOut {
@@ -247,7 +253,7 @@ ul {
 
 .todoListElem {
   width: 31.8%;
-  height: 165px;
+  min-height: 165px;
   background: #ffffff;
   border: 1px solid #dde2ff;
   box-sizing: border-box;
@@ -257,6 +263,7 @@ ul {
   flex-direction: column;
   justify-content: space-between;
 }
+
 .todoListElem textarea {
   position: relative;
   background: #ffffff;
@@ -382,17 +389,6 @@ ul {
   border: none;
 }
 
-/* textarea {
-  position: relative;
-  background: #ffffff;
-  border: 3px solid #d1d8ff;
-  box-sizing: border-box;
-  border-radius: 5px;
-  max-width: 100%;
-  min-width: 100%;
-  min-height: 40%;
-} */
-
 #createBtn {
   background: #7a8dfd;
   border: 1px solid #7a8dfd;
@@ -467,4 +463,9 @@ ul {
   display: flex;
   gap: 30px;
   justify-content: left;
+}
+
+#searchBtn {
+  vertical-align: top;
+  padding-top: 1%;
 }
