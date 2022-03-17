@@ -23,7 +23,7 @@ body {
 .spinner {
   animation: rotation 2.5s infinite linear;
   position: absolute;
-  z-index: 900;
+  z-index: 999;
 
   display: none;
 }
@@ -41,6 +41,7 @@ body {
 .spinner_div {
   position: relative;
   width: 50%;
+  bottom: 50%;
 }
 
 .card_spinner {
@@ -191,7 +192,7 @@ textarea {
 #navbar {
   background: rgba(255, 255, 255, 1);
   width: 100vw;
-  height: 7vh;
+  height: 8vh;
   border: 1px solid #dde2ff;
   display: flex;
   justify-content: space-between;
@@ -200,7 +201,7 @@ textarea {
 #navBarObj {
   position: relative;
   top: 1%;
-  width: 100px;
+  width: 120px;
   margin: 0 12vw;
 }
 
@@ -289,8 +290,8 @@ textarea {
 
 .lg-txt {
   font-weight: 700;
-  font-size: 28px;
-  line-height: 35px;
+  font-size: 25px;
+  line-height: 32px;
   color: rgba(50, 57, 75, 1);
 }
 
@@ -319,6 +320,8 @@ textarea {
   color: rgba(255, 255, 255, 1);
   font-size: 12px;
   line-height: 14px;
+  font-style: normal;
+  font-weight: 500;
 }
 
 .checkboxDiv {
@@ -344,9 +347,8 @@ textarea {
   background: #ffffff;
   border: 1px solid #dde2ff;
   border-radius: 5px;
-  height: 36px;
-  min-height: 4vh;
-  min-width: 3vw;
+  min-height: 3.5vh;
+  min-width: 2.5vw;
   text-align: center;
   padding: 0 15px;
 }
@@ -396,8 +398,8 @@ textarea {
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  min-height: 4vh;
-  min-width: 6vw;
+  min-height: 3.8vh;
+  min-width: 5.6vw;
 
   text-align: center;
   color: #ffffff;

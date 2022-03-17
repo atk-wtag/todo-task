@@ -18,10 +18,10 @@ async function addTodo(todo) {
     let key = Date.now(); // current time in ms, to use as db key and <li> id
 
     const obj = await create(key, input);
-
     if (!obj.error) {
       searchBar.value = "";
-      await loadTodos();
+      state.all.push(obj.data[0]);
+      await loadTodos(false);
       showToast(false);
     } else showToast(true);
   }

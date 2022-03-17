@@ -54,6 +54,7 @@ const main_div = document.querySelector("[class=main-div]");
 const no_todos = document.querySelector("[class=no-todos]");
 const loadMoreDiv = document.querySelector("[class=loadMoreDiv]");
 const content = document.querySelector("[id=content]");
+const toto_ul = document.querySelector("[class=todo-ul-div]");
 
 //no-todos text
 const no_todos_txt = document.querySelector("[id=no-todos-txt]");
@@ -78,7 +79,7 @@ allBtn.addEventListener("click", () => showAll());
 
 searchBtn.addEventListener("click", () => toggleSearchBarVisibility());
 
-content.addEventListener("mousedown", () => hideSearchBar());
+toto_ul.addEventListener("mousedown", () => hideSearchBar());
 
 searchBar.addEventListener("keyup", function () {
   timer = setTimeout(() => {

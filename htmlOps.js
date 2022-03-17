@@ -189,7 +189,6 @@ function createNewFormList() {
   if (!elementExists("form")) {
     const addNew = function (e) {
       e.preventDefault();
-      console.log(this);
       const todo_val = inputBox.value.trim();
       if (!todo_val) return;
       deleteElement(this.parentNode.parentNode);
