@@ -1,34 +1,31 @@
 // loads all todos from DB
 async function loadTodos(r = true) {
-  if (r) {
-    await reset();
-    removeAllChild(todoList);
-  }
+  if (r) await reset();
 
+  removeAllChild(todoList);
   setState("pointer", "all");
   reset_showing(state.all);
   showTodos("append");
+  return;
 }
 
 // add new todo to the state object
 async function addTodo(todo) {
+  disableWindow();
   let input = todo;
   if (input) {
-    setDisabled(newInput);
     input = sanitizeString(input);
     let key = Date.now(); // current time in ms, to use as db key and <li> id
 
     const obj = await create(key, input);
 
-    const date = getCurrDate();
     if (!obj.error) {
       searchBar.value = "";
-
       await state.all.push(obj.data[0]);
-      showAll();
-    } else alert("failed to add");
+      await loadTodos();
+      showToast(false);
+    } else showToast(true);
   }
-  setEnabled(newInput);
 }
 
 // deletes a todo
@@ -39,12 +36,16 @@ async function deleteTodo() {
 
   const deleted = await deleteByID(id);
   setEnabled(list);
-  if (deleted.error) alert("failed to delete");
+  if (deleted.error) showToast(true);
   else {
+    showToast(false);
     list.remove();
     if (state.pointer == "completed") showCompleted();
     else if (state.pointer == "incomplete") showIncomplete();
-    else loadTodos();
+    else {
+      disableWindow();
+      loadTodos();
+    }
   }
 }
 // edit a todo
@@ -53,29 +54,29 @@ function editTodo() {
   const newInput = makeEditable(list); // Create a new input box
 }
 
-async function updateTodo(prev_val) {
+async function updateTodo() {
   const list = this.parentNode;
-  let value = list.children[1].value.trim(); // new textarea value
+  let value = list.children[2].value.trim(); // new textarea value
   value = sanitizeString(value);
   if (!value) return;
   setDisabled(list);
 
-  list.children[3].remove(); // delete 'save' button
-  list.removeChild(list.children[1]); // removes the textarea element from <li>
+  list.children[4].remove(); // delete 'save' button
+  list.removeChild(list.children[2]); // removes the textarea element from <li>
 
   const updtlabel = document.createElement("label"); // a new label element
   updtlabel.innerText = value; // set new label value to textarea value
-  list.insertBefore(updtlabel, list.children[1]); // add the new label to <li> before the 'save' button
+  updtlabel.className = "disabled";
+  list.insertBefore(updtlabel, list.children[2]); // add the new label to <li> before the 'save' button
 
   const update = await updateByID(list.id, value);
   if (update.error) {
-    alert("failed to update");
-    list.children[1].innerText = prev_val;
-  } else {
-    // modifyState(list.id, "description", value);
-  }
+    showToast(true);
+    reset();
+  } else showToast(false);
+
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
-  list.insertBefore(editBtn, list.children[3]);
+  list.insertBefore(editBtn, list.children[4]);
   setEnabled(list);
 }
 
@@ -83,17 +84,18 @@ async function updateTodo(prev_val) {
 async function changeStatus() {
   const list = this.parentNode;
   setDisabled(list);
-
   try {
-    if (list.children[0].checked) {
-      await markAsDone.call(list.children[0]);
+    if (list.children[1].checked) {
+      await markAsDone.call(list.children[1]);
     } else {
-      await markAsUndone.call(list.children[0]);
+      await markAsUndone.call(list.children[1]);
     }
     if (state.pointer === "completed") showCompleted();
     else if (state.pointer === "incomplete") showIncomplete();
+    showToast(false);
   } catch (e) {
     console.log(e);
+    showToast(true);
   } finally {
     setEnabled(list);
   }
@@ -103,9 +105,9 @@ async function changeStatus() {
 async function markAsDone() {
   const list = this.parentNode;
   const id = list.id;
-  const text = list.children[1].innerText || list.children[1].value; // todo text label
+  const text = list.children[2].innerText || list.children[2].value; // todo text label
 
-  list.childNodes[3].remove();
+  list.childNodes[4].remove();
 
   const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
 
@@ -114,8 +116,9 @@ async function markAsDone() {
     const newText = document.createElement("label");
     newText.innerText = text;
 
-    newTextNode = replaceNode(list, list.children[1], "label", text, newText);
-    newTextNode.setAttribute("style", "text-decoration:line-through;"); // strike-through if marked/checked
+    newTextNode = replaceNode(list, list.children[2], "label", text, newText);
+    newTextNode.style.setProperty("text-decoration", "line-through"); // strike-through if marked/checked
+    newTextNode.className = "disabled"; // strike-through if marked/checked
 
     const completed_at = checked.data[0].completed_at.slice(0, 10);
 
@@ -125,12 +128,11 @@ async function markAsDone() {
       list.appendChild(getCompletedNode(created, completed_at));
     }
     await updateByID(id, text);
-    // modifyState(id, "description", text);
   } else {
+    showToast(true);
+    list.children[1].checked = false;
     // remove strike-through for error, and add the 'edit' button
-    alert("failed");
-    list.children[0].checked = false;
-    list.insertBefore(editBtn, list.children[3]);
+    list.insertBefore(editBtn, list.children[4]);
   }
 }
 
@@ -138,7 +140,7 @@ async function markAsDone() {
 async function markAsUndone() {
   const list = this.parentNode;
   const id = list.id;
-  const label = list.childNodes[1]; // todo text label
+  const label = list.childNodes[2]; // todo text label
 
   list.removeChild(list.children[list.children.length - 1]); // remove completed at
 
@@ -147,10 +149,10 @@ async function markAsUndone() {
   const checked = await toggleCompleted(id, false);
   if (!checked.error) {
     // modifyState(id, "description", label.innerText);
-    label.setAttribute("style", "text-decoration:none;"); // remove strike-through if unmarked/unchecked
-    list.insertBefore(editBtn, list.children[3]);
+    label.style.setProperty("text-decoration", "none"); // remove strike-through if unmarked/unchecked
+    list.insertBefore(editBtn, list.children[4]);
   } else {
-    alert("failed");
-    list.children[0].checked = true;
+    showToast(true);
+    list.children[1].checked = true;
   }
 }

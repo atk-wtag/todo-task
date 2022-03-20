@@ -15,6 +15,8 @@ addJS("./common/js/resource.js");
 addJS("/filter.js");
 addJS("/common/js/stateOps.js");
 addJS("/search.js");
+addJS("/common/js/cssOps.js");
+addJS("/common/js/svgOps.js");
 
 //crud buttons
 let newInput = document.querySelector("[name=createBtn]"); // create button
@@ -32,9 +34,31 @@ const loadMoreBtn = document.querySelector("[name=loadMoreBtn]"); // load more
 const searchBar = document.querySelector("[name=searchBar]");
 const searchBtn = document.querySelector("[name=searchBtn]");
 
+//preloading div
+const preloader = document.querySelector("[class=preloader]");
+
+//spinner
+const spinner = document.querySelector("[class=spinner]");
+
+//toast div
+const toast = document.querySelector("[id=toast]");
+
+//content divs
+const container = document.querySelector("[class=container]");
+const main_div = document.querySelector("[class=main-div]");
+const no_todos = document.querySelector("[class=no-todos]");
+const loadMoreDiv = document.querySelector("[class=loadMoreDiv]");
+const content = document.querySelector("[id=content]");
+
 newInput.addEventListener("click", () => createNewFormList());
 
-window.addEventListener("load", () => loadTodos());
+window.addEventListener("load", async () => {
+  await loadTodos();
+  setTimeout(() => {
+    preloader.remove();
+    main_div.style.setProperty("display", "block");
+  }, 2000);
+});
 
 loadMoreBtn.addEventListener("click", () => loadMore());
 
@@ -49,7 +73,7 @@ searchBar.addEventListener("keyup", function () {
     const searchText = this.value;
     searchText.length >= 3 ? search(sanitizeString(searchText)) : "";
     searchText.length === 0 ? resetSearch() : "";
-  }, 600);
+  }, 1000);
 });
 
 searchBar.addEventListener("keypress", function () {

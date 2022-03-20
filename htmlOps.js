@@ -29,6 +29,10 @@ function createTodoElement(
 ) {
   const li = document.createElement("li"); // new <li> element
 
+  //spinner animation
+  const sp = document.createElement("span");
+  sp.innerHTML = getCardSpinner();
+
   // checkbox to mark as done
   const checkBox = document.createElement("input");
   checkBox.setAttribute("type", "checkbox");
@@ -50,6 +54,7 @@ function createTodoElement(
 
   li.setAttribute("id", key);
 
+  li.prepend(sp);
   li.appendChild(checkBox);
   li.appendChild(label);
   li.appendChild(date);
@@ -68,17 +73,17 @@ function createTodoElement(
 
 // make an editable input box
 function makeEditable(list) {
-  const labelData = list.children[1].innerText; // current todo text
+  const labelData = list.children[2].innerText; // current todo text
 
-  const newNode = replaceNode(list, list.children[1], "textarea", labelData); // replaces todo text label with textarea input
+  const newNode = replaceNode(list, list.children[2], "textarea", labelData); // replaces todo text label with textarea input
 
   const saveBtn = createButton(
     "save",
-    () => updateTodo.call(list.children[3], labelData),
+    () => updateTodo.call(list.children[4]),
     "margin-left: 1vw"
   ); // a new save button element
 
-  const newBtn = replaceNode(list, list.children[3], "button", "save", saveBtn); // replaces edit button with save button
+  const newBtn = replaceNode(list, list.children[4], "button", "save", saveBtn); // replaces edit button with save button
 
   return newNode; // returns the newly created textarea element.
 }
@@ -151,9 +156,8 @@ function createNewFormList() {
       e.preventDefault();
       const todo_val = inputBox.value.trim();
       if (!todo_val) return;
-      addTodo(todo_val);
-
       deleteElement(this.parentNode);
+      addTodo(todo_val);
     };
   }
 }
@@ -176,17 +180,6 @@ function createNewInput(type, name, value, style) {
   input.setAttribute("style", style);
 
   return input;
-}
-
-function setDisabled(item) {
-  const elem = item;
-  elem.style.setProperty("pointer-events", "none");
-  elem.style.setProperty("opacity", "0.6");
-}
-function setEnabled(item) {
-  const elem = item;
-  elem.style.setProperty("pointer-events", "auto");
-  elem.style.setProperty("opacity", "1.0");
 }
 
 function getCompletedNode(created_at, completed_at) {

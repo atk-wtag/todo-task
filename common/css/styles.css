@@ -1,3 +1,161 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgba(248, 249, 255, 1);
+  font-family: "Roboto", sans-serif;
+}
 ul li {
   color: black;
+}
+
+.preloader {
+  display: flex;
+}
+
+.spinner {
+  animation: rotation 2.5s infinite linear;
+  position: absolute;
+  z-index: 900;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+
+.card_spinner {
+  animation: rotation 2.5s infinite linear;
+  position: relative;
+  z-index: 900;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.preloader object {
+  position: absolute;
+  width: 446px;
+  height: 154px;
+  left: 35vw;
+  top: 40vh;
+}
+
+.no-todos {
+  display: none;
+  position: absolute;
+  left: 43.45%;
+  right: 35.45%;
+  top: 42.22%;
+  bottom: 34.93%;
+  color: #32394b;
+}
+
+#no_todos_text {
+  margin-top: 1vh;
+  position: relative;
+  left: -4vw;
+}
+
+.main-div {
+  display: none;
+}
+
+.main-div {
+  display: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#toast {
+  visibility: hidden;
+  max-width: 20vw;
+  max-height: 10vh;
+  text-align: center;
+  border-radius: 5px;
+  padding: 20px;
+  position: fixed;
+  z-index: 800;
+  left: 40%;
+  right: 40%;
+  top: 1%;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  font-style: normal;
+}
+
+#toast.show-err {
+  background: rgba(232, 95, 95, 1);
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 1s;
+  animation: fadein 0.5s, fadeout 0.5s 1s;
+}
+
+#toast.show-no-err {
+  background: rgba(11, 195, 117, 1);
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 1s;
+  animation: fadein 0.5s, fadeout 0.5s 1s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 1%;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 1%;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    top: 1%;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    top: 1%;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
 }

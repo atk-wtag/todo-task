@@ -5,8 +5,24 @@ async function setState(key, value) {
 
 async function reset() {
   const allTodos = await getAll();
-  setState("all", allTodos);
-  setState("pointer", "all");
+  const data = allTodos.data;
+  const error = allTodos.error;
+
+  if (data.length === 0) {
+    setTimeout(() => {
+      preloader.remove();
+      enableWindow();
+      main_div.style.setProperty("display", "block");
+      no_todos.style.setProperty("display", "block");
+      loadMoreDiv.style.setProperty("display", "none");
+      incompleteBtn.setAttribute("disabled", true);
+      completedBTn.setAttribute("disabled", true);
+      allBtn.setAttribute("disabled", true);
+      searchBtn.setAttribute("disabled", true);
+    }, 1000);
+    return;
+  }
+  setState("all", allTodos.data);
 }
 
 function reset_showing(obj) {

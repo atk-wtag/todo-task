@@ -12,18 +12,20 @@ async function create(u_id, desc) {
     return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
 async function getAll() {
   try {
     const { data, error } = await spConn
-      .from("todos")
+      .from("asd")
       .select()
       .order("id", { ascending: true });
-    return data;
+    return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -36,6 +38,7 @@ async function deleteByID(id) {
     return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -48,6 +51,7 @@ async function updateByID(id, desc) {
     return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -61,6 +65,7 @@ async function toggleCompleted(id, done) {
     return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -71,9 +76,10 @@ async function getCompleted(completed) {
       .select()
       .match({ completed: completed })
       .order("id", { ascending: true });
-    return data;
+    return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -85,9 +91,10 @@ async function searchByText(text) {
       .select()
       .ilike("description", keywrd)
       .order("id", { ascending: true });
-    return data;
+    return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -100,9 +107,10 @@ async function getCompletedwithSearchText(text, completed) {
       .match({ completed: completed })
       .ilike("description", keywrd)
       .order("id", { ascending: true });
-    return data;
+    return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }
 
@@ -114,8 +122,9 @@ async function getAllwithText(text) {
       .select()
       .ilike("description", keywrd)
       .order("id", { ascending: true });
-    return data;
+    return { data, error };
   } catch (err) {
     console.log(err);
+    showToast(true);
   }
 }

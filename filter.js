@@ -25,9 +25,11 @@ function showTodos(placement) {
       placement
     );
   }
+  enableWindow();
 }
 
 function loadMore() {
+  disableWindow();
   const show = state.showing;
   const from = show[0] - 9;
   const to = show[1] - 9;
@@ -36,39 +38,58 @@ function loadMore() {
 }
 
 async function showCompleted() {
+  disableWindow();
   const len = searchBar.value.length;
-  state.all =
+  const obj =
     len >= 3
       ? await getCompletedwithSearchText(searchBar.value, true)
       : await getCompleted(true);
 
-  removeAllChild(todoList);
-  reset_showing(state.all);
+  if (obj.error) showToast(true);
+  else {
+    state.all = obj.data;
+    showToast(false);
+    removeAllChild(todoList);
+    reset_showing(state.all);
 
-  setState("pointer", "completed");
-  showTodos("append");
+    setState("pointer", "completed");
+    showTodos("append");
+  }
 }
 
 async function showIncomplete() {
+  disableWindow();
   const len = searchBar.value.length;
-  state.all =
+  const obj =
     len >= 3
       ? await getCompletedwithSearchText(searchBar.value, false)
       : await getCompleted(false);
 
-  removeAllChild(todoList);
-  reset_showing(state.all);
+  if (obj.error) showToast(true);
+  else {
+    state.all = obj.data;
+    showToast(false);
+    removeAllChild(todoList);
+    reset_showing(state.all);
 
-  setState("pointer", "incomplete");
-  showTodos("append");
+    setState("pointer", "incomplete");
+    showTodos("append");
+  }
 }
 
 async function showAll() {
+  disableWindow();
   const len = searchBar.value.length;
-  if (len >= 3) {
-    state.all = await getAllwithText(searchBar.value);
+
+  const obj = len >= 3 ? await getAllwithText(searchBar.value) : await getAll();
+  if (obj.error) showToast(true);
+  else {
+    state.all = obj.data;
+    showToast(false);
     removeAllChild(todoList);
-    loadTodos(false);
-    return;
-  } else loadTodos();
+    reset_showing(state.all);
+
+    setState("pointer", "all");
+    showTodos("append");
+  }
 }
