@@ -87,6 +87,8 @@ async function updateTodo() {
     showToast(true);
   } else {
     showToast(false);
+    await modifyState(div.id, "description", value);
+
     if (state.pointer == "incomplete") showIncomplete();
   }
 

@@ -32,3 +32,12 @@ async function removeById(id) {
     return parseInt(item.u_id) != id;
   });
 }
+
+async function modifyState(id, field, value) {
+  for (let i = 0; i < state.all.length; i++) {
+    if (parseInt(state.all[i].u_id) == id) {
+      state.all[i][field] = value;
+      break;
+    }
+  }
+}
