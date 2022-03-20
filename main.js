@@ -7,15 +7,15 @@ function addJS(uri) {
   document.body.appendChild(jsFile);
 }
 window.addEventListener("DOMContentLoaded", () => {
-  addJS("./common/js/dbOps.js");
-  addJS("./common/js/htmlOps.js");
-  addJS("/todo.js");
-  addJS("./common/js/resource.js");
-  addJS("/filter.js");
-  addJS("/common/js/stateOps.js");
-  addJS("/search.js");
-  addJS("/common/js/cssOps.js");
-  addJS("/common/js/svgOps.js");
+  addJS("./src/common/js/dbOps.js");
+  addJS("./src/common/js/htmlOps.js");
+  addJS("./src/todo.js");
+  addJS("./src/common/js/resource.js");
+  addJS("./src/filter.js");
+  addJS("./src/common/js/stateOps.js");
+  addJS("./src/search.js");
+  addJS("./src/common/js/cssOps.js");
+  addJS("./src/common/js/svgOps.js");
 });
 
 //crud buttons
