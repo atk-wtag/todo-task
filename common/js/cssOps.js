@@ -3,7 +3,10 @@ function setDisabled(item) {
   const spinner = elem.children[1].children[1].children[0].children[0];
 
   elem.children[0].classList.add("disabled");
+  elem.children[0].classList.add("blur");
   elem.children[2].classList.add("disabled");
+  elem.children[2].classList.add("blur");
+
   spinner.style.setProperty("display", "flex");
 }
 
@@ -12,17 +15,23 @@ function setEnabled(item) {
   const spinner = elem.children[1].children[1].children[0].children[0];
 
   elem.children[0].classList.remove("disabled");
+  elem.children[0].classList.remove("blur");
+
   elem.children[2].classList.remove("disabled");
+  elem.children[2].classList.remove("blur");
+
   spinner.style.setProperty("display", "none");
 }
 
 function disableWindow() {
   content.classList.add("disabled");
+  content.classList.add("blur");
   spinner.style.setProperty("display", "block");
 }
 
 function enableWindow() {
   content.classList.remove("disabled");
+  content.classList.remove("blur");
   spinner.style.setProperty("display", "none");
 }
 
