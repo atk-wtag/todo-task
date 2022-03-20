@@ -36,7 +36,6 @@ function enableWindow() {
 }
 
 function showNoTodosFound(block = true, text = null) {
-  main_div.style.setProperty("display", "block");
   no_todos.style.setProperty("display", "block");
   loadMoreDiv.style.setProperty("display", "none");
   if (block) {

@@ -3,7 +3,6 @@ function showTodos(placement) {
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
   const allTodos = state.all;
   if (state.all.length === 0) {
-    loadMoreDiv.style.setProperty("display", "none");
     enableWindow();
     if (state.pointer != "all") showNoTodosFound(false);
     else showNoTodosFound();
