@@ -17,13 +17,12 @@ function setEnabled(item) {
 }
 
 function disableWindow() {
-  main_div.classList.add("disabled");
+  content.classList.add("disabled");
   spinner.style.setProperty("display", "block");
 }
 
 function enableWindow() {
   content.classList.remove("disabled");
-  main_div.classList.remove("disabled");
   spinner.style.setProperty("display", "none");
 }
 
