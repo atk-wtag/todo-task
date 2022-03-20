@@ -4,19 +4,19 @@ let timer;
 function addJS(uri) {
   let jsFile = document.createElement("script");
   jsFile.src = uri;
-  document.head.appendChild(jsFile);
+  document.body.appendChild(jsFile);
 }
-
-addJS("https://cdn.jsdelivr.net/npm/@supabase/supabase-js");
-addJS("/dbOps.js");
-addJS("/htmlOps.js");
-addJS("/todo.js");
-addJS("./common/js/resource.js");
-addJS("/filter.js");
-addJS("/common/js/stateOps.js");
-addJS("/search.js");
-addJS("/common/js/cssOps.js");
-addJS("/common/js/svgOps.js");
+window.addEventListener("DOMContentLoaded", () => {
+  addJS("/dbOps.js");
+  addJS("/htmlOps.js");
+  addJS("/todo.js");
+  addJS("./common/js/resource.js");
+  addJS("/filter.js");
+  addJS("/common/js/stateOps.js");
+  addJS("/search.js");
+  addJS("/common/js/cssOps.js");
+  addJS("/common/js/svgOps.js");
+});
 
 //crud buttons
 let newInput = document.querySelector("[name=createBtn]"); // create button
