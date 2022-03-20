@@ -251,6 +251,7 @@ textarea {
 }
 
 .todoListElem {
+  overflow-x: hidden;
   width: 31.8%;
   min-height: 165px;
   background: #ffffff;

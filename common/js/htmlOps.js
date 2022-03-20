@@ -142,7 +142,8 @@ function makeEditable(list) {
     "textarea",
     labelData
   ); // replaces todo text label with textarea input
-  newNode.setAttribute("rows", 3);
+  newNode.setAttribute("rows", 4);
+  newNode.setAttribute("maxlength", "100");
   newNode.focus();
 
   // update todo on enter key press
@@ -187,6 +188,7 @@ function replaceNode(list, oldNode, newNodeType, text, preMadeNode = null) {
 }
 
 function createNewFormList() {
+  newInput.disabled = true;
   if (!elementExists("form")) {
     const addNew = function (e) {
       e.preventDefault();
@@ -194,6 +196,7 @@ function createNewFormList() {
       if (!todo_val) return;
       // deleteElement(this.parentNode.parentNode);
       addTodo(todo_val);
+      newInput.disabled = false;
     };
 
     const li = document.createElement("div"); // new <div> element
@@ -209,8 +212,9 @@ function createNewFormList() {
     // new form input box
     const inputBox = document.createElement("textarea");
     inputBox.setAttribute("name", "todoInputBox");
-    inputBox.setAttribute("placeholder", "Todo");
     inputBox.setAttribute("rows", "4");
+    inputBox.setAttribute("maxlength", "100");
+    inputBox.autofocus = true;
 
     inputBox.addEventListener("keypress", (event) => {
       event.key === "Enter" && !event.shiftKey
@@ -228,6 +232,7 @@ function createNewFormList() {
       function (e) {
         e.preventDefault();
         deleteElement(li);
+        newInput.disabled = false;
       },
       ""
     );
