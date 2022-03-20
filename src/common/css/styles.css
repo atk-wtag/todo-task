@@ -206,7 +206,7 @@ textarea {
 #searchDiv {
   position: relative;
   top: 20%;
-  margin: 0 12vw;
+  margin: 0 12.2vw;
 }
 
 .searchBar {
@@ -247,7 +247,7 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  justify-content: space-between;
+  justify-content: left;
 }
 
 .todoListElem {
@@ -412,6 +412,7 @@ textarea {
 #btnsDiv {
   display: flex;
   justify-content: space-between;
+  margin-right: 0.5%;
 }
 
 .edtDltBtn {
