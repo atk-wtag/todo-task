@@ -57,9 +57,11 @@ function hideNoTodosFound() {
 
 function toggleSearchBarVisibility() {
   const searchBar = document.getElementById("searchBar");
-  searchBar.classList.contains("fadeIn")
-    ? hideSearchBar()
-    : searchBar.classList.add("fadeIn");
+  if (searchBar.classList.contains("fadeIn")) hideSearchBar();
+  else {
+    searchBar.classList.add("fadeIn");
+    searchBar.focus();
+  }
 }
 
 function hideSearchBar() {

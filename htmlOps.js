@@ -143,6 +143,7 @@ function makeEditable(list) {
     labelData
   ); // replaces todo text label with textarea input
   newNode.setAttribute("rows", 3);
+  newNode.focus();
 
   // update todo on enter key press
   newNode.addEventListener("keypress", (event) => {
