@@ -7,8 +7,8 @@ function addJS(uri) {
   document.body.appendChild(jsFile);
 }
 window.addEventListener("DOMContentLoaded", () => {
-  addJS("/dbOps.js");
-  addJS("/htmlOps.js");
+  addJS("./common/js/dbOps.js");
+  addJS("./common/js/htmlOps.js");
   addJS("/todo.js");
   addJS("./common/js/resource.js");
   addJS("/filter.js");
