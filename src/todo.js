@@ -47,7 +47,9 @@ async function deleteTodo() {
     showToast(false);
     div.remove();
     await removeById(id);
-    showTodos("append");
+    if (state.pointer === "all") loadTodos();
+    else if (state.pointer === "incomplete") showIncomplete();
+    else showCompleted();
   }
 }
 // edit a todo
