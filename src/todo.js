@@ -20,8 +20,8 @@ async function addTodo(todo) {
     const obj = await create(key, input);
     if (!obj.error) {
       searchBar.value = "";
-      state.all.push(obj.data[0]);
-      await loadTodos(false);
+      // state.all.push(obj.data[0]);
+      await loadTodos();
       showToast(false);
     } else showToast(true);
   }
