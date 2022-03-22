@@ -82,13 +82,11 @@ searchBtn.addEventListener("click", () => toggleSearchBarVisibility());
 toto_ul.addEventListener("mousedown", () => hideSearchBar());
 
 searchBar.addEventListener("keyup", function () {
+  clearTimeout(timer);
+
   timer = setTimeout(() => {
     const searchText = this.value;
     searchText.length >= 3 ? search(sanitizeString(searchText)) : "";
     searchText.length === 0 ? resetSearch() : "";
-  }, 1000);
-});
-
-searchBar.addEventListener("keypress", function () {
-  clearTimeout(timer);
+  }, 500);
 });
