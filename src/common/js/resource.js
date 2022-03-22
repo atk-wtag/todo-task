@@ -15,8 +15,8 @@ function getCurrDate() {
 function sanitizeString(str) {
   str = str.replace(/[^a-z0-9 \.,-]/gim, " ");
   str = str.replace(/\s\s+/g, " ").trim();
-
-  return str;
+  if (str.length > 0) return str;
+  else return undefined;
 }
 
 function showToast(error) {
