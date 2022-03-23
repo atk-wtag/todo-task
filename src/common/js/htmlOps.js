@@ -63,6 +63,10 @@ function createTodoElement(
   checkBox.setAttribute("class", "checkBtn");
   checkBox.innerHTML = getCheckbox();
 
+  //checkbox tooltip
+  const checkBoxTooltip = createNewTooltip("Mark as done");
+  checkBox.appendChild(checkBoxTooltip);
+
   // label to act as to-do text
   const label = document.createElement("label");
   label.innerText = desc;
@@ -86,16 +90,22 @@ function createTodoElement(
   midDiv.appendChild(spinnerDiv); // add spinner
 
   // new edit button
-  let editBtn = createButton("", editTodo);
+  const editBtn = createButton("", editTodo);
   editBtn.setAttribute("class", "edtDltBtn");
   editBtn.innerHTML = getEditIcon();
 
+  // edit button tooltip
+  const editButtonTooltip = createNewTooltip("Edit Todo");
+  editBtn.appendChild(editButtonTooltip);
+
   // new delete button
-  let delBtn = createButton("", deleteTodo);
+  const delBtn = createButton("", deleteTodo);
   delBtn.setAttribute("class", "edtDltBtn");
   delBtn.innerHTML = getDltIcon();
 
-  // strike-through based on the status
+  // delete button tooltip
+  const deleteButtonTooltip = createNewTooltip("Delete Todo");
+  delBtn.appendChild(deleteButtonTooltip);
 
   li.setAttribute("id", key);
   li.setAttribute("class", "todoListElem");
@@ -295,4 +305,12 @@ function removeAllChild(list) {
   while (list.hasChildNodes()) {
     list.removeChild(list.firstChild);
   }
+}
+
+function createNewTooltip(text) {
+  const tooltip = document.createElement("p");
+  tooltip.innerText = text;
+  tooltip.className = "tooltip";
+
+  return tooltip;
 }

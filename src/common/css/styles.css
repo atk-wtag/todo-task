@@ -252,6 +252,7 @@ textarea {
 
 .todoListElem {
   overflow-x: hidden;
+  overflow-y: hidden;
   width: 31.8%;
   min-height: 165px;
   background: #ffffff;
@@ -331,8 +332,6 @@ textarea {
 }
 
 .bottomDiv {
-  position: relative;
-  /* margin-top: 5%; */
   display: flex;
   justify-content: space-between;
 }
@@ -474,4 +473,26 @@ textarea {
 
 .blur {
   filter: blur(2px);
+}
+
+.tooltip {
+  z-index: 1000;
+  position: absolute;
+  visibility: hidden;
+  background-color: #32394b;
+  color: aliceblue;
+  padding: 6px 10px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.checkBtn:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.edtDltBtn:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
 }
