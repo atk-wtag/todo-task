@@ -45,6 +45,9 @@ function createTodoElement(
   spinnerObject.setAttribute("class", "cardSpinnerObj");
   spinnerObject.innerHTML = getCardSpinner(); //spinner svg
 
+  const spinnerSvg = spinnerObject.children[0];
+  spinnerSvg.setAttribute("id", `${key}spinner`);
+
   spinnerDiv.appendChild(spinnerObject); // add spinner to its div
 
   //bottom elemnts div
@@ -66,8 +69,6 @@ function createTodoElement(
   label.setAttribute("class", "md-txt");
 
   // created at div
-  const cd = document.createElement("div");
-  cd.setAttribute("class", "createdAtDiv");
 
   //date text
   const date = document.createElement("p");
@@ -82,7 +83,6 @@ function createTodoElement(
   topDiv.appendChild(date);
 
   // add items to the mid div
-  midDiv.appendChild(cd); // add date
   midDiv.appendChild(spinnerDiv); // add spinner
 
   // new edit button

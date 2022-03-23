@@ -1,6 +1,8 @@
 function setDisabled(item) {
   const element = item;
-  const spinner = element.children[1].children[1].children[0].children[0];
+
+  const spinnerId = `${item.id}spinner`;
+  const spinner = document.getElementById(spinnerId);
 
   element.children[0].classList.add("disabled");
   element.children[0].classList.add("blur");
@@ -12,7 +14,9 @@ function setDisabled(item) {
 
 function setEnabled(item) {
   const element = item;
-  const spinner = element.children[1].children[1].children[0].children[0];
+
+  const spinnerId = `${item.id}spinner`;
+  const spinner = document.getElementById(spinnerId);
 
   element.children[0].classList.remove("disabled");
   element.children[0].classList.remove("blur");

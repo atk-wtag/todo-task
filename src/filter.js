@@ -1,5 +1,4 @@
 function showTodos(placement) {
-  console.log(state.showing);
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
   const allTodos = state.all;
   const itemCount = state.all.length;

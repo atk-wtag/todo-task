@@ -34,18 +34,13 @@ body button {
 .midDiv {
   position: relative;
   display: flex;
-  justify-content: left;
-}
-
-.createdAtDiv {
-  position: relative;
-  width: 40%;
+  justify-content: center;
+  align-items: center;
 }
 
 .cardSpinnerDiv {
   position: absolute;
-  bottom: 35%;
-  left: 42.5%;
+  bottom: 20%;
 }
 
 .cardSpinner {
@@ -186,6 +181,7 @@ ul {
   justify-content: center;
 }
 textarea {
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
