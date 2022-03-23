@@ -190,13 +190,19 @@ function replaceNode(list, oldNode, newNodeType, text, preMadeNode = null) {
 function createNewFormList() {
   newInput.disabled = true;
   if (!elementExists("form")) {
+    var to_add = true;
+
     const addNew = function (e) {
       e.preventDefault();
-      const todo_val = inputBox.value.trim();
-      if (!todo_val) return;
-      // deleteElement(this.parentNode.parentNode);
-      addTodo(todo_val);
-      newInput.disabled = false;
+
+      if (to_add) {
+        const todo_val = inputBox.value.trim();
+        if (!todo_val) return;
+        // deleteElement(this.parentNode.parentNode);
+        addTodo(todo_val);
+        newInput.disabled = false;
+        to_add = false;
+      }
     };
 
     const li = document.createElement("div"); // new <div> element
