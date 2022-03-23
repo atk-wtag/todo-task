@@ -11,7 +11,7 @@ async function loadTodos(r = true) {
 
 // add new todo to the state object
 async function addTodo(todo) {
-  let input = sanitizeString(todo);
+  let input = todo;
   if (!input) return;
   disableWindow();
 
@@ -97,46 +97,6 @@ async function updateTodo() {
   setEnabled(div);
 }
 
-// change mark-as-done (toggle checkbox). invoked when the checkbox is clicked
-// async function changeStatus() {
-//   const list = this.parentNode;
-//   const div = list.parentNode;
-//   const parentDiv = div.parentNode;
-
-//   const el1 = list.children[0];
-//   const el2 = list.children[1];
-
-//   let checkbox;
-
-//   if (el1.matches("[class=checkBtn]")) {
-//     checkbox = el1;
-//   } else checkbox = el2;
-
-//   // setDisabled(parentDiv);
-//   try {
-//     checkbox.addEventListener("click", () => console.log(checkbox));
-//     // if (checkbox.checked) {
-//     // await markAsDone.call(checkbox);
-//     // }
-//     // else {
-//     //   await markAsUndone.call(checkbox);
-//     // }
-//     if (state.pointer === "completed") showCompleted();
-//     // else if (state.pointer === "incomplete") showIncomplete();
-//     else if (state.pointer === "all") {
-//       disableWindow();
-//       loadTodos();
-//     }
-
-//     showToast(false);
-//   } catch (e) {
-//     console.log(e);
-//     showToast(true);
-//   } finally {
-//     setEnabled(parentDiv);
-//   }
-// }
-
 // makes todo completed
 
 async function markAsDone() {
@@ -159,18 +119,3 @@ async function markAsDone() {
   showToast(false);
   setEnabled(div);
 }
-
-// makes todo incomplete
-// async function markAsUndone() {
-//   const list = this.parentNode;
-//   const div = list.parentNode.parentNode;
-
-//   const id = div.id;
-//   const label = div.children[1]; // todo text label
-//   label.setAttribute("class", "md-txt");
-//   div.children[div.children.length - 1].remove(); // remove completed at
-
-//   // const editBtn = createButton("Edit", editTodo, "margin-left: 1vw");
-
-//   await toggleCompleted(id, false);
-// }

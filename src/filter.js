@@ -1,5 +1,4 @@
 function showTodos(placement) {
-  hideNoTodosFound();
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
   const allTodos = state.all;
   if (state.all.length === 0) {

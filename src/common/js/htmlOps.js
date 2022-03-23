@@ -142,7 +142,7 @@ function makeEditable(list) {
     "textarea",
     labelData
   ); // replaces todo text label with textarea input
-  newNode.setAttribute("rows", 4);
+  newNode.setAttribute("rows", 3);
   newNode.setAttribute("maxlength", "100");
   newNode.focus();
 
@@ -194,13 +194,15 @@ function createNewFormList() {
 
     const addNew = function (e) {
       const textArea = this.parentNode.parentNode.children[0].children[0];
-      e.preventDefault();
 
       if (toAdd) {
-        const todoValue = inputBox.value.trim();
+        // let todoValue = inputBox.value.trim();
+        const todoValue = sanitizeString(inputBox.value);
+
         if (!todoValue) return;
         // deleteElement(this.parentNode.parentNode);
         textArea.disabled = true;
+
         addTodo(todoValue);
         newInput.disabled = false;
         toAdd = false;
