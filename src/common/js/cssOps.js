@@ -1,24 +1,24 @@
 function setDisabled(item) {
-  const elem = item;
-  const spinner = elem.children[1].children[1].children[0].children[0];
+  const element = item;
+  const spinner = element.children[1].children[1].children[0].children[0];
 
-  elem.children[0].classList.add("disabled");
-  elem.children[0].classList.add("blur");
-  elem.children[2].classList.add("disabled");
-  elem.children[2].classList.add("blur");
+  element.children[0].classList.add("disabled");
+  element.children[0].classList.add("blur");
+  element.children[2].classList.add("disabled");
+  element.children[2].classList.add("blur");
 
   spinner.style.setProperty("display", "flex");
 }
 
 function setEnabled(item) {
-  const elem = item;
-  const spinner = elem.children[1].children[1].children[0].children[0];
+  const element = item;
+  const spinner = element.children[1].children[1].children[0].children[0];
 
-  elem.children[0].classList.remove("disabled");
-  elem.children[0].classList.remove("blur");
+  element.children[0].classList.remove("disabled");
+  element.children[0].classList.remove("blur");
 
-  elem.children[2].classList.remove("disabled");
-  elem.children[2].classList.remove("blur");
+  element.children[2].classList.remove("disabled");
+  element.children[2].classList.remove("blur");
 
   spinner.style.setProperty("display", "none");
 }
@@ -36,18 +36,18 @@ function enableWindow() {
 }
 
 function showNoTodosFound(block = true, text = null) {
-  no_todos.style.setProperty("display", "block");
+  noTodos.style.setProperty("display", "block");
   loadMoreDiv.style.setProperty("display", "none");
   if (block) {
     filterBtnDiv.classList.add("disabled");
     searchBtn.setAttribute("disabled", true);
   }
-  no_todos_txt.innerText = text;
+  noTodosText.innerText = text;
 }
 
 function hideNoTodosFound() {
-  main_div.style.setProperty("display", "block");
-  no_todos.style.setProperty("display", "none");
+  mainDiv.style.setProperty("display", "block");
+  noTodos.style.setProperty("display", "none");
   loadMoreDiv.style.setProperty("display", "flex");
   filterBtnDiv.classList.remove("disabled");
 

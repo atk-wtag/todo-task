@@ -21,7 +21,7 @@ async function reset() {
   }
 }
 
-function reset_showing(obj) {
+function resetCurrentlyShowing(obj) {
   const lastIdx = Object.keys(obj).length - 1;
   const firstIdx = lastIdx - 9;
   setState("showing", [lastIdx, firstIdx]);

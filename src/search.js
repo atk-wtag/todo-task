@@ -9,7 +9,7 @@ async function search(text) {
     state.all = obj.data;
 
     removeAllChild(todoList);
-    reset_showing(state.all);
+    resetCurrentlyShowing(state.all);
     showTodos("append");
     showToast(false);
   }
@@ -22,7 +22,7 @@ async function resetSearch() {
   loadMoreDiv.style.setProperty("display", "none");
   removeAllChild(todoList);
   await reset();
-  reset_showing(state.all);
+  resetCurrentlyShowing(state.all);
   removeAllChild(todoList);
   showTodos("append");
   enableWindow();

@@ -50,14 +50,14 @@ const navbar = document.querySelector("[id=navbar]");
 
 //content divs
 const container = document.querySelector("[class=container]");
-const main_div = document.querySelector("[class=main-div]");
-const no_todos = document.querySelector("[class=no-todos]");
+const mainDiv = document.querySelector("[class=main-div]");
+const noTodos = document.querySelector("[class=no-todos]");
 const loadMoreDiv = document.querySelector("[class=loadMoreDiv]");
 const content = document.querySelector("[id=content]");
-const toto_ul = document.querySelector("[class=todo-ul-div]");
+const todoUl = document.querySelector("[class=todo-ul-div]");
 
 //no-todos text
-const no_todos_txt = document.querySelector("[id=no-todos-txt]");
+const noTodosText = document.querySelector("[id=no-todos-txt]");
 
 newInput.addEventListener("click", () => createNewFormList());
 
@@ -65,7 +65,7 @@ window.addEventListener("load", async () => {
   await loadTodos();
   // setTimeout(() => {
   preloader.remove();
-  main_div.style.setProperty("display", "block");
+  mainDiv.style.setProperty("display", "block");
   // }, 2000);
 });
 
@@ -79,7 +79,7 @@ allBtn.addEventListener("click", () => showAll());
 
 searchBtn.addEventListener("click", () => toggleSearchBarVisibility());
 
-toto_ul.addEventListener("mousedown", () => hideSearchBar());
+todoUl.addEventListener("mousedown", () => hideSearchBar());
 
 searchBar.addEventListener("keyup", function () {
   clearTimeout(timer);

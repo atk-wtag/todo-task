@@ -4,7 +4,7 @@ async function loadTodos(r = true) {
   removeAllChild(todoList);
 
   setState("pointer", "all");
-  reset_showing(state.all);
+  resetCurrentlyShowing(state.all);
   showTodos("append");
   return;
 }
@@ -44,6 +44,7 @@ async function deleteTodo() {
     loadTodos();
   } else {
     showToast(false);
+    disableWindow();
     div.remove();
     await removeById(id);
     if (state.pointer === "all") loadTodos();

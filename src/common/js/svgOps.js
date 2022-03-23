@@ -1,6 +1,6 @@
 function getCardSpinner() {
   return `<svg
-        class="card_spinner"
+        class="cardSpinner"
         width="48"
         height="48"
         viewBox="0 0 51 51"

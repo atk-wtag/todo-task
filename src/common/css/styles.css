@@ -32,18 +32,18 @@ body {
   justify-content: left;
 }
 
-.created_at_div {
+.createdAtDiv {
   position: relative;
   width: 40%;
 }
 
-.spinner_div {
+.cardSpinnerDiv {
   position: relative;
   width: 50%;
   bottom: 50%;
 }
 
-.card_spinner {
+.cardSpinner {
   position: relative;
   animation: rotation 1.5s infinite linear;
   z-index: 900;
@@ -78,7 +78,7 @@ body {
   color: #32394b;
 }
 
-#no_todos_text {
+#noTodos_text {
   margin-top: 1vh;
   position: relative;
   left: -4vw;

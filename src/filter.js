@@ -15,20 +15,20 @@ function showTodos(placement) {
   to = to < 0 ? -1 : to;
   try {
     for (var i = from; i > to; i--) {
-      const todo_details = allTodos[i];
-      created_at = todo_details.created_at.slice(0, 10);
-      completed_at = todo_details.completed_at;
-      completed_at = completed_at ? completed_at.slice(0, 10) : completed_at;
+      const todoDetails = allTodos[i];
+      createdAt = todoDetails.createdAt.slice(0, 10);
+      completedAt = todoDetails.completedAt;
+      completedAt = completedAt ? completedAt.slice(0, 10) : completedAt;
 
-      completed_at_node = completed_at
-        ? getCompletedNode(created_at, completed_at)
+      completedAtNode = completedAt
+        ? getCompletedNode(createdAt, completedAt)
         : null;
       addNewHTMLElement(
-        todo_details.u_id,
-        todo_details.description,
-        created_at,
-        todo_details.completed,
-        completed_at_node,
+        todoDetails.u_id,
+        todoDetails.description,
+        createdAt,
+        todoDetails.completed,
+        completedAtNode,
         placement
       );
     }
@@ -62,7 +62,7 @@ async function showCompleted() {
     state.all = obj.data;
     showToast(false);
     removeAllChild(todoList);
-    reset_showing(state.all);
+    resetCurrentlyShowing(state.all);
 
     setState("pointer", "completed");
     showTodos("append");
@@ -82,7 +82,7 @@ async function showIncomplete() {
     state.all = obj.data;
     showToast(false);
     removeAllChild(todoList);
-    reset_showing(state.all);
+    resetCurrentlyShowing(state.all);
 
     setState("pointer", "incomplete");
     showTodos("append");

@@ -2,11 +2,11 @@ const supabaseUrl = "https://vpmtafvtfkzjqayxfuhp.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwbXRhZnZ0Zmt6anFheXhmdWhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDY2NDc3MDcsImV4cCI6MTk2MjIyMzcwN30.OICt9468g5WzqL0NAiyRttRjq3RCQA2vWllKh9yv0K4";
 
-const spConn = supabase.createClient(supabaseUrl, supabaseKey);
+const database = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function create(u_id, desc) {
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .insert([{ u_id: u_id, description: desc }]);
     return { data, error };
@@ -18,7 +18,7 @@ async function create(u_id, desc) {
 
 async function getAll() {
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .select()
       .order("id", { ascending: true });
@@ -31,7 +31,7 @@ async function getAll() {
 
 async function deleteByID(id) {
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .delete()
       .match({ u_id: id });
@@ -44,7 +44,7 @@ async function deleteByID(id) {
 
 async function updateByID(id, desc) {
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .update({ description: desc })
       .match({ u_id: id });
@@ -57,23 +57,17 @@ async function updateByID(id, desc) {
 
 async function toggleCompleted(id, done, text) {
   try {
-    const completed_at = done ? getCurrDate() : null;
-    const { data, error } = text
-      ? await spConn
-          .from("todos")
-          .update({
-            completed: done,
-            completed_at: completed_at,
-            description: text,
-          })
-          .match({ u_id: id })
-      : await spConn
-          .from("todos")
-          .update({
-            completed: done,
-            completed_at: completed_at,
-          })
-          .match({ u_id: id });
+    const completedAt = done ? getCurrDate() : null;
+    const updateObject = {
+      completed: done,
+      completedAt: completedAt,
+    };
+    text ? (updateObject.description = text) : null;
+    const { data, error } = await database
+      .from("todos")
+      .update(updateObject)
+      .match({ u_id: id });
+
     return { data, error };
   } catch (err) {
     console.log(err);
@@ -83,7 +77,7 @@ async function toggleCompleted(id, done, text) {
 
 async function getCompleted(completed) {
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .select()
       .match({ completed: completed })
@@ -96,12 +90,12 @@ async function getCompleted(completed) {
 }
 
 async function searchByText(text) {
-  const keywrd = `%${text}%`;
+  const searchKey = `%${text}%`;
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .select()
-      .ilike("description", keywrd)
+      .ilike("description", searchKey)
       .order("id", { ascending: true });
     return { data, error };
   } catch (err) {
@@ -111,13 +105,13 @@ async function searchByText(text) {
 }
 
 async function getCompletedwithSearchText(text, completed) {
-  const keywrd = `%${text}%`;
+  const searchKey = `%${text}%`;
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .select()
       .match({ completed: completed })
-      .ilike("description", keywrd)
+      .ilike("description", searchKey)
       .order("id", { ascending: true });
     return { data, error };
   } catch (err) {
@@ -127,12 +121,12 @@ async function getCompletedwithSearchText(text, completed) {
 }
 
 async function getAllwithText(text) {
-  const keywrd = `%${text}%`;
+  const searchKey = `%${text}%`;
   try {
-    const { data, error } = await spConn
+    const { data, error } = await database
       .from("todos")
       .select()
-      .ilike("description", keywrd)
+      .ilike("description", searchKey)
       .order("id", { ascending: true });
     return { data, error };
   } catch (err) {

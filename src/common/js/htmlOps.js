@@ -2,17 +2,17 @@
 function addNewHTMLElement(
   index,
   desc,
-  created_at,
+  createdAt,
   completed,
-  completed_at_node,
+  completedAtNode,
   placement
 ) {
   let newTodoElement = createTodoElement(
     index,
     desc,
-    created_at,
+    createdAt,
     completed,
-    completed_at_node
+    completedAtNode
   );
   placement === "append"
     ? todoList.append(newTodoElement)
@@ -23,9 +23,9 @@ function addNewHTMLElement(
 function createTodoElement(
   key,
   desc,
-  created_at,
+  createdAt,
   completed = null,
-  completed_at_node = null
+  completedAtNode = null
 ) {
   const li = document.createElement("div"); // new <div> element
 
@@ -37,15 +37,15 @@ function createTodoElement(
   midDiv.setAttribute("class", "midDiv");
 
   //spinner div
-  const sd = document.createElement("div");
-  sd.setAttribute("class", "spinner_div");
+  const spinnerDiv = document.createElement("div");
+  spinnerDiv.setAttribute("class", "cardSpinnerDiv");
 
   //spinner object
-  const sp = document.createElement("obj");
-  sp.setAttribute("class", "spinnerDiv");
-  sp.innerHTML = getCardSpinner(); //spinner svg
+  const spinnerObject = document.createElement("obj");
+  spinnerObject.setAttribute("class", "cardSpinnerObj");
+  spinnerObject.innerHTML = getCardSpinner(); //spinner svg
 
-  sd.appendChild(sp); // add spinner to its div
+  spinnerDiv.appendChild(spinnerObject); // add spinner to its div
 
   //bottom elemnts div
   const bottomDiv = document.createElement("div");
@@ -67,11 +67,11 @@ function createTodoElement(
 
   // created at div
   const cd = document.createElement("div");
-  cd.setAttribute("class", "created_at_div");
+  cd.setAttribute("class", "createdAtDiv");
 
   //date text
   const date = document.createElement("p");
-  date.innerText = ` created on: ${created_at}`;
+  date.innerText = ` created on: ${createdAt}`;
   date.setAttribute("class", "sm-txt");
 
   //add the todo text to the card
@@ -83,7 +83,7 @@ function createTodoElement(
 
   // add items to the mid div
   midDiv.appendChild(cd); // add date
-  midDiv.appendChild(sd); // add spinner
+  midDiv.appendChild(spinnerDiv); // add spinner
 
   // new edit button
   let editBtn = createButton("", editTodo);
@@ -120,10 +120,10 @@ function createTodoElement(
   bottomDiv.appendChild(checkboxDiv);
 
   if (completed) {
-    const completed_div = document.createElement("div");
-    completed_div.setAttribute("class", "completed");
-    completed_div.appendChild(completed_at_node);
-    bottomDiv.appendChild(completed_div);
+    const completedDiv = document.createElement("div");
+    completedDiv.setAttribute("class", "completed");
+    completedDiv.appendChild(completedAtNode);
+    bottomDiv.appendChild(completedDiv);
   }
   li.appendChild(bottomDiv);
 
@@ -190,18 +190,20 @@ function replaceNode(list, oldNode, newNodeType, text, preMadeNode = null) {
 function createNewFormList() {
   newInput.disabled = true;
   if (!elementExists("form")) {
-    var to_add = true;
+    var toAdd = true;
 
     const addNew = function (e) {
+      const textArea = this.parentNode.parentNode.children[0].children[0];
       e.preventDefault();
 
-      if (to_add) {
-        const todo_val = inputBox.value.trim();
-        if (!todo_val) return;
+      if (toAdd) {
+        const todoValue = inputBox.value.trim();
+        if (!todoValue) return;
         // deleteElement(this.parentNode.parentNode);
-        addTodo(todo_val);
+        textArea.disabled = true;
+        addTodo(todoValue);
         newInput.disabled = false;
-        to_add = false;
+        toAdd = false;
       }
     };
 
@@ -276,14 +278,14 @@ function createNewInput(type, name, value, style) {
   return input;
 }
 
-function getCompletedNode(created_at, completed_at) {
-  const completed_at_node = document.createElement("label");
-  let time_to_finish = compareDates(created_at, completed_at);
-  const d = time_to_finish > 1 ? "days" : "day";
-  time_to_finish = time_to_finish === 0 ? "less than a" : time_to_finish;
-  completed_at_node.innerText = ` Completed in ${time_to_finish} ${d}`;
+function getCompletedNode(createdAt, completedAt) {
+  const completedAtNode = document.createElement("label");
+  let timeToFinish = compareDates(createdAt, completedAt);
+  const d = timeToFinish > 1 ? "days" : "day";
+  timeToFinish = timeToFinish === 0 ? "less than a" : timeToFinish;
+  completedAtNode.innerText = ` Completed in ${timeToFinish} ${d}`;
 
-  return completed_at_node;
+  return completedAtNode;
 }
 
 function removeAllChild(list) {
