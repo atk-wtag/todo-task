@@ -485,6 +485,7 @@ textarea {
   border-radius: 3px;
   opacity: 0;
   transition: opacity 1s;
+  transition-delay: 0.5s;
 }
 
 .checkBtn:hover .tooltip {
