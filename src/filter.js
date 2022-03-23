@@ -1,7 +1,9 @@
 function showTodos(placement) {
+  console.log(state.showing);
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
   const allTodos = state.all;
-  if (state.all.length === 0) {
+  const itemCount = state.all.length;
+  if (itemCount === 0) {
     enableWindow();
     if (state.pointer != "all") showNoTodosFound(false);
     else showNoTodosFound();
@@ -12,6 +14,9 @@ function showTodos(placement) {
   const from = show[0];
   let to = show[1];
   to = to < 0 ? -1 : to;
+
+  to < 0 ? toggleLoadMoreDivVisibility(false) : toggleLoadMoreDivVisibility();
+
   try {
     for (var i = from; i > to; i--) {
       const todoDetails = allTodos[i];
@@ -37,6 +42,7 @@ function showTodos(placement) {
 
 function loadMore() {
   if (state.showing[1] < 0) return;
+
   disableWindow();
 
   setTimeout(() => {

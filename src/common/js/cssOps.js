@@ -68,3 +68,9 @@ function hideSearchBar() {
   const searchBar = document.getElementById("searchBar");
   searchBar.classList.replace("fadeIn", "fadeOut");
 }
+
+function toggleLoadMoreDivVisibility(visible = true) {
+  visible
+    ? loadMoreDiv.style.setProperty("visibility", "visible")
+    : loadMoreDiv.style.setProperty("visibility", "hidden");
+}
