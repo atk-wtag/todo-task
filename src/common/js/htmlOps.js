@@ -193,6 +193,7 @@ function createNewFormList() {
     var toAdd = true;
 
     const addNew = function (e) {
+      e.preventDefault();
       const textArea = this.parentNode.parentNode.children[0].children[0];
 
       if (toAdd) {
