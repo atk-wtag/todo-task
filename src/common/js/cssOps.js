@@ -1,4 +1,5 @@
 function setDisabled(item) {
+  toggleCreateButton(true);
   const element = item;
 
   const spinnerId = `${item.id}spinner`;
@@ -13,6 +14,8 @@ function setDisabled(item) {
 }
 
 function setEnabled(item) {
+  toggleCreateButton(false);
+
   const element = item;
 
   const spinnerId = `${item.id}spinner`;
@@ -77,4 +80,8 @@ function toggleLoadMoreDivVisibility(visible = true) {
   visible
     ? loadMoreDiv.style.setProperty("visibility", "visible")
     : loadMoreDiv.style.setProperty("visibility", "hidden");
+}
+
+function toggleCreateButton(disable = false) {
+  newInput.disabled = disable;
 }

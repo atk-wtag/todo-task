@@ -1,4 +1,6 @@
 function showTodos(placement) {
+  toggleCreateButton(false);
+
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
   const allTodos = state.all;
   const itemCount = state.all.length;
@@ -50,11 +52,12 @@ function loadMore() {
     const to = show[1] - 9;
     setState("showing", [from, to]);
     showTodos("append");
-  }, 950);
+  }, 750);
 }
 
 async function showCompleted() {
   disableWindow();
+
   const len = searchBar.value.length;
   const obj =
     len >= 3

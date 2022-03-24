@@ -198,8 +198,9 @@ function replaceNode(list, oldNode, newNodeType, text, preMadeNode = null) {
 }
 
 function createNewFormList() {
-  newInput.disabled = true;
   if (!elementExists("form")) {
+    toggleCreateButton(true);
+
     var toAdd = true;
 
     const addNew = function (e) {

@@ -28,7 +28,6 @@ async function addTodo(todo) {
 
 // deletes a todo
 async function deleteTodo() {
-  console.log(4);
   const list = this.parentNode;
   const div = list.parentNode.parentNode;
 
@@ -45,7 +44,7 @@ async function deleteTodo() {
     loadTodos();
   } else {
     showToast(false);
-    disableWindow();
+    // disableWindow();
     div.remove();
     await removeById(id);
     if (state.pointer === "all") loadTodos();

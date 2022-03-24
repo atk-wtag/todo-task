@@ -177,9 +177,7 @@ ul {
   pointer-events: none;
   opacity: 0.6;
 }
-.container {
-  justify-content: center;
-}
+
 textarea {
   font-family: "Roboto", sans-serif;
   font-style: normal;
@@ -206,7 +204,7 @@ textarea {
 #searchDiv {
   position: relative;
   top: 20%;
-  margin: 0 12.2vw;
+  margin-right: 14vw;
 }
 
 .searchBar {
@@ -251,9 +249,8 @@ textarea {
 }
 
 .todoListElem {
-  overflow-x: hidden;
-  overflow-y: hidden;
-  width: 31.8%;
+  overflow: hidden;
+  width: 31%;
   min-height: 165px;
   background: #ffffff;
   border: 1px solid #dde2ff;
@@ -359,6 +356,7 @@ textarea {
   display: flex;
   direction: row;
   gap: 0.5vw;
+  margin-right: 1.85vw;
 }
 
 .loadMoreDiv {
@@ -411,7 +409,7 @@ textarea {
 #btnsDiv {
   display: flex;
   justify-content: space-between;
-  margin-right: 0.5%;
+  margin-right: 0.5rem;
 }
 
 .edtDltBtn {
@@ -479,7 +477,7 @@ textarea {
   z-index: 1000;
   position: absolute;
   visibility: hidden;
-  background-color: #32394b;
+  background-color: #5a5d64;
   color: aliceblue;
   padding: 6px 10px;
   border-radius: 3px;
