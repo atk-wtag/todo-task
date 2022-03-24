@@ -13,13 +13,13 @@ function getCurrDate() {
 
 // sanitizes inputs
 function sanitizeString(str) {
-  const replaceSpecialChars = new RegExp(/[^a-z0-9(\r\n|\r|\n) .,-]/gim);
+  const replaceSpecialChars = new RegExp(/[^a-z0-9(\r\n|\r|\n) .,/-]/gim);
   const replaceNewLines = new RegExp(/(\r\n|\r|\n)(\r\n|\r|\n)+/gm);
-  const replaceWhiteSpaces = new RegExp(/ss+/g);
+  const replaceWhiteSpaces = new RegExp(/ss+/gm);
 
   str = str.replace(replaceSpecialChars, " ");
   str = str.replace(replaceNewLines, "\n");
-  str = str.replace(replaceWhiteSpaces, " ");
+  str = str.replace(replaceWhiteSpaces, " ").trim();
 
   if (str.length > 0) return str;
   else return undefined;
