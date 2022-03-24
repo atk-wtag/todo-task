@@ -173,11 +173,10 @@ function makeEditable(list) {
 }
 
 // create a button and return it
-function createButton(label, onClick, style) {
+function createButton(label, onClick) {
   const btn = document.createElement("button");
   btn.innerText = label;
   btn.addEventListener("click", onClick);
-  btn.setAttribute("style", style);
 
   return btn;
 }
