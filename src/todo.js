@@ -62,7 +62,7 @@ async function updateTodo() {
   const list = this.parentNode;
 
   const div = list.parentNode.parentNode;
-  let value = div.children[0].children[0].value.trim(); // new textarea value
+  let value = div.children[0].children[0].value; // new textarea value
   value = sanitizeString(value);
   if (!value) return;
 

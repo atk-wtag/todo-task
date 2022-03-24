@@ -158,7 +158,7 @@ function makeEditable(list) {
 
   // update todo on enter key press
   newNode.addEventListener("keypress", (event) => {
-    event.which === 13 && !event.shiftKey
+    event.key === "Enter" && !event.shiftKey
       ? updateTodo.call(list.children[1])
       : undefined;
   });
@@ -208,7 +208,6 @@ function createNewFormList() {
       const textArea = this.parentNode.parentNode.children[0].children[0];
 
       if (toAdd) {
-        // let todoValue = inputBox.value.trim();
         const todoValue = sanitizeString(inputBox.value);
 
         if (!todoValue) return;
