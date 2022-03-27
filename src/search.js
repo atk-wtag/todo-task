@@ -1,15 +1,15 @@
 async function search(text) {
-  loadMoreDiv.style.setProperty("display", "none");
-  disableWindow();
-  removeAllChild(todoList);
+  prepareWindowForSearch();
+  setState("pointer", "all");
+
   const obj = await searchByText(text);
   if (obj.error) {
     showToast(true);
   } else {
     state.all = obj.data;
 
-    removeAllChild(todoList);
-    resetCurrentlyShowing(state.all);
+    resetSearchWindow();
+
     showTodos("append");
     showToast(false);
   }
@@ -18,12 +18,25 @@ async function search(text) {
 
 async function resetSearch() {
   if (searchBar.value.length >= 3) return;
-  disableWindow();
-  loadMoreDiv.style.setProperty("display", "none");
-  removeAllChild(todoList);
+
+  prepareWindowForSearch();
+
+  setState("pointer", "all");
   await reset();
-  resetCurrentlyShowing(state.all);
-  removeAllChild(todoList);
+
+  resetSearchWindow();
+
   showTodos("append");
   enableWindow();
+}
+
+function prepareWindowForSearch() {
+  disableWindow();
+  toggleLoadMoreDivVisibility(false);
+  removeAllChild(todoList);
+}
+
+function resetSearchWindow() {
+  resetCurrentlyShowing(state.all);
+  removeAllChild(todoList);
 }

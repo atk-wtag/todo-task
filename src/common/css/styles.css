@@ -496,3 +496,7 @@ textarea {
   opacity: 1;
   visibility: visible;
 }
+
+.activeButton {
+  box-shadow: #dde2ff 0px 1px 0px, #dde2ff 0px 0px 8px;
+}

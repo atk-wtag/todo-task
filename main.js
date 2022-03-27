@@ -27,7 +27,7 @@ let todoList = document.getElementById("todoList"); // <ul> to append todos
 // filter buttons
 const allBtn = document.querySelector("[name=allTodoBtn]"); // show all button
 const incompleteBtn = document.querySelector("[name=incompleteBtn]"); // filter by incomplete
-const completedBTn = document.querySelector("[name=completedBtn]"); // filter completed
+const completedBtn = document.querySelector("[name=completedBtn]"); // filter completed
 const loadMoreBtn = document.querySelector("[name=loadMoreBtn]"); // load more
 
 const filterBtnDiv = document.querySelector("[id=filterBtnDiv]");
@@ -71,7 +71,7 @@ window.addEventListener("load", async () => {
 
 loadMoreBtn.addEventListener("click", () => loadMore());
 
-completedBTn.addEventListener("click", () => showCompleted());
+completedBtn.addEventListener("click", () => showCompleted());
 
 incompleteBtn.addEventListener("click", () => showIncomplete());
 

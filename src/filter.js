@@ -1,4 +1,5 @@
 function showTodos(placement) {
+  setPointerButtonActive();
   toggleCreateButton(false);
 
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
@@ -98,6 +99,8 @@ async function showIncomplete() {
 
 async function showAll() {
   disableWindow();
+  setState("pointer", "all");
+
   const len = searchBar.value.length;
 
   if (len >= 3) {
@@ -105,4 +108,12 @@ async function showAll() {
   } else {
     loadTodos();
   }
+}
+
+function setPointerButtonActive() {
+  resetActiveButton();
+  const currentFilter = state.pointer;
+  if (currentFilter === "all") setActive(allBtn);
+  else if (currentFilter === "incomplete") setActive(incompleteBtn);
+  else setActive(completedBtn);
 }

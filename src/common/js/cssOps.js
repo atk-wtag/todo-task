@@ -34,6 +34,7 @@ function disableWindow() {
   content.classList.add("disabled");
   content.classList.add("blur");
   spinner.style.setProperty("display", "block");
+  noTodos.style.setProperty("display", "none");
 }
 
 function enableWindow() {
@@ -43,7 +44,6 @@ function enableWindow() {
 }
 
 function showNoTodosFound(block = true, text = null) {
-  console.log(noTodos);
   noTodos.style.setProperty("display", "block");
   loadMoreDiv.style.setProperty("display", "none");
   if (block) {
@@ -84,4 +84,14 @@ function toggleLoadMoreDivVisibility(visible = true) {
 
 function toggleCreateButton(disable = false) {
   newInput.disabled = disable;
+}
+
+function setActive(element) {
+  element.classList.add("activeButton");
+}
+
+function resetActiveButton() {
+  incompleteBtn.classList.remove("activeButton");
+  completedBtn.classList.remove("activeButton");
+  allBtn.classList.remove("activeButton");
 }
