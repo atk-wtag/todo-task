@@ -15,7 +15,7 @@ function getCurrDate() {
 function sanitizeString(str) {
   const cannotStartWithChars = new RegExp(/[^a-z0-9(\r\n|\r|\n) .,/-]/gim);
   const oneOrMoreNewLines = new RegExp(/(\r\n|\r|\n)(\r\n|\r|\n)+/gm);
-  const oneOrMoreWhiteSpaces = new RegExp(/ss+/gm);
+  const oneOrMoreWhiteSpaces = new RegExp(/\s\s+/gm);
 
   str = str.replace(cannotStartWithChars, " ");
   str = str.replace(oneOrMoreNewLines, "\n");
