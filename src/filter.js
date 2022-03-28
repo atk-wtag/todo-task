@@ -1,5 +1,5 @@
 function showTodos(placement) {
-  setPointerButtonActive();
+  setFilterButtonActive();
   toggleCreateButton(false);
 
   if (placement !== "append" && placement !== "prepend") throw new TypeError();
@@ -110,7 +110,7 @@ async function showAll() {
   }
 }
 
-function setPointerButtonActive() {
+function setFilterButtonActive() {
   resetActiveButton();
   const currentFilter = state.pointer;
   if (currentFilter === "all") setActive(allBtn);
