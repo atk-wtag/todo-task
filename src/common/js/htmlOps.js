@@ -234,7 +234,9 @@ function createNewFormList() {
     inputBox.setAttribute("name", "todoInputBox");
     inputBox.setAttribute("rows", "4");
     inputBox.setAttribute("maxlength", "100");
-    inputBox.autofocus = true;
+    setTimeout(() => {
+      inputBox.focus();
+    }, 0);
 
     inputBox.addEventListener("keypress", (event) => {
       event.key === "Enter" && !event.shiftKey
